@@ -1,9 +1,88 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html><head><meta content="text/html; charset=ISO-8859-1" http-equiv="content-type"><title>point</title></head><body>
-<h1>Point</h1>
-<br>
-<br>
+<!DOCTYPE html>
+<html>
 
-  
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="P5visualanalyticslibrary : Simple library over processing for visual analytics" />
 
-</body></html>
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>P5 Visual Analytics Library: Point</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/juanibarral/p5visualanalyticslibrary">View on GitHub</a>
+
+          <h1 id="project_title">P5 Visual Analytics Library</h1>
+          <h2 id="project_tagline">Pickeable Point</h2>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h3>Pickeable Point</h3>
+
+<p>It is a point with a feedback when the mouse is over it. The feedback can be overriden by the user. By default, the feedback is that the point grows in size when the mouse is over it.</p>
+
+
+<h3>Simple Point</h3>
+
+<p>
+
+<pre>
+<code>
+import java.awt.Color;
+import processing.core.PApplet;
+import util.VAPoint;
+
+public class PointExample extends PApplet{
+
+ private VAPoint point;
+ public void setup()
+ {
+ point = new VAPoint(250, 250, this);
+ size(500, 500);
+ }
+ 
+ public void draw()
+ {
+ if(point.mouseIsOverFeedback())
+ {
+ background(Color.white.getRGB());
+ }
+ point.drawPoint();
+ }
+}
+</code>
+</pre>
+
+</p>
+
+
+
+
+
+<h3>Support or Contact</h3>
+
+<p>Juan Camilo IBARRA LOPEZ juanibarral@gmail.com</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">P5visualanalyticslibrary maintained by <a href="https://github.com/juanibarral">juanibarral</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
