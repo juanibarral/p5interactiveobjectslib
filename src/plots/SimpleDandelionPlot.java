@@ -9,6 +9,13 @@ import util.PickeableObject;
 import util.PickeableObjectListener;
 import util.VAPoint;
 
+/**
+ * It is a Class that represents a radial plot that looks like a dandelion
+ * Each axis is rendered from the center to a point along a circle of radius max value of the data
+ * Each data is rendered in one axis, its distance to the center is proportional to the data value
+ * @author Juan Camilo Ibarra
+ * @version 0.5b
+ */
 public class SimpleDandelionPlot extends PickeableObject {
 	private int posY;
 	private int posX;
@@ -23,10 +30,12 @@ public class SimpleDandelionPlot extends PickeableObject {
 	private int centerX;
 	private int centerY;
 	private boolean withBackground;
-
 	private ArrayList<VAPoint> points;
 	private PApplet mainApplet;
 
+	/**
+	 * Simple Constructor
+	 */
 	public SimpleDandelionPlot()
 	{
 		width = 100;
@@ -43,6 +52,13 @@ public class SimpleDandelionPlot extends PickeableObject {
 		points = new ArrayList<VAPoint>();
 	}
 
+	/**
+	 * Simple constructor
+	 * @param mainApplet the applet where the plot is going to be rendered
+	 * @param posX upper left position in X for the plot
+	 * @param posY upper left position in Y for the plot
+	 * @param width width of the plot
+	 */
 	public SimpleDandelionPlot(PApplet mainApplet, int posX, int posY, int width)
 	{
 		this();
@@ -55,30 +71,57 @@ public class SimpleDandelionPlot extends PickeableObject {
 		this.centerY = this.posY + (int)((float)width / 2);
 	}
 
+	/**
+	 * Sets the ranges for the data values
+	 * @param min minimum value
+	 * @param max maximum value
+	 */
 	public void setRange(double min, double max)
 	{
 		this.minValue = min;
 		this.maxValue = max;
 	}
 
+	/**
+	 * Sets the data for the plot
+	 * @param data the data 
+	 * @throws Exception if the data is out of range
+	 */
 	public void setData(double[] data) throws Exception
 	{
 		float radiusGap = 360.0f / (float)(data.length);
 		for(int i = 0; i < data.length; i++)
 		{
 			double d = data[i];
+			if(d < minValue || d > maxValue)
+			{
+				throw new Exception ("Data out of range " + d + ", [" + minValue + "," + maxValue + "]");
+			}
 			float radius = PApplet.map((float)d, (float)minValue, (float)maxValue, 0, (float)maxLineLength);
 			int posX = (int) (radius * Math.cos(Math.toRadians(radiusGap  * i)));
 			int posY = (int) (radius * Math.sin(Math.toRadians(radiusGap  * i)));
 
 			VAPoint point = new VAPoint(centerX + posX, centerY - posY, mainApplet);
 			point.setId(i);
-			point.setDataValue(data[i]);
+			point.setUserData(data[i]);
+			point.setText(data[i] + "", null, VAPoint.DEFAULT_TEXT_SIZE);
 			point.setColor(colorLine);
 			point.setSelectedColor(colorSelected);
 			point.setBackgroundColor(colorBackground);
 			point.renderBackground(true);
 			points.add(point);
+		}
+	}
+	
+	/**
+	 * Sets the color for the unselected nodes
+	 * @param colors list of colors in RGB
+	 */
+	public void setNodeColors(int[] colors)
+	{
+		for(int i = 0; i < colors.length; i++)
+		{
+			points.get(i).setColor(colors[i]);
 		}
 	}
 
@@ -102,6 +145,9 @@ public class SimpleDandelionPlot extends PickeableObject {
 		return mouseIsOver;
 	}
 
+	/**
+	 * Draws the plot
+	 */
 	public void drawPlot()
 	{
 		if(changed)
@@ -137,11 +183,15 @@ public class SimpleDandelionPlot extends PickeableObject {
 		}
 	}
 
+	/**
+	 * If render the data of each node
+	 * @param b if the data will be rendered
+	 */
 	public void renderNodesData(boolean b)
 	{
 		for(VAPoint p : points)
 		{
-			p.renderData(b);
+			p.renderText(b);
 		}
 	}
 }

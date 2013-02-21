@@ -26,8 +26,9 @@ public class MultiplePointsExample extends PApplet implements PickeableObjectLis
 			points[i] = new VAPoint((int)random(0, 500), (int)random(0,500), this);
 			points[i].setId(i);
 			points[i].addListener(this);
-			points[i].setDataValue(i);
-			points[i].renderData(true);
+			points[i].setUserData(i);
+			points[i].setText(i + "", null, VAPoint.DEFAULT_TEXT_SIZE);
+			points[i].renderText(true);
 		}
 	}
 
@@ -39,7 +40,7 @@ public class MultiplePointsExample extends PApplet implements PickeableObjectLis
 			VAPoint point = points[i];
 			if(point.mouseIsOverFeedback())
 			{
-				background(Color.white.getRGB());
+				background(Color.WHITE.getRGB());
 				pointChangedIndex = i;
 				break;
 			}
@@ -57,11 +58,8 @@ public class MultiplePointsExample extends PApplet implements PickeableObjectLis
 	}
 
 	@Override
-	public void update(PickeableObject object, Object message) {
-		if(message instanceof Integer)
-		{
-			System.out.println("message from " + message);
-		}
+	public void update(PickeableObject object) {
+		System.out.println("message from " + object.getClass().getName() + " id: " + object.getId());
 		
 	}
 }

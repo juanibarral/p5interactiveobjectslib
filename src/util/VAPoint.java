@@ -1,7 +1,6 @@
 package util;
 
 import java.awt.Color;
-import java.text.DecimalFormat;
 
 import processing.core.PApplet;
 import processing.core.PFont;
@@ -14,19 +13,19 @@ import processing.core.PFont;
  */
 public class VAPoint extends PickeableObject{
 
+	public static final int DEFAULT_TEXT_SIZE = 14;
 	private int posX;
 	private int posY;
 	private int color;
-	private int selectedColor;
+	private int colorSelected;
 	private int size = 5;
 	private String text;
 	private PFont font;
 	private int textSize;
-	private boolean withText;
-	private boolean withData;
-	private double data;
+	private boolean renderText;
 	private boolean withBackground;
 	private int colorBackground;
+	private int colorText;
 
 	/**
 	 * Basic constructor
@@ -40,22 +39,13 @@ public class VAPoint extends PickeableObject{
 		this.posX = posX;
 		this.posY = posY;
 		this.color = Color.BLACK.getRGB();
-		this.selectedColor = Color.BLACK.getRGB();
+		this.colorSelected = Color.BLACK.getRGB();
 		this.text = "";
-		this.withText = false;
-		this.withData = false;
-		this.textSize = 14;
+		this.renderText = false;
+		this.textSize = DEFAULT_TEXT_SIZE;
 		this.withBackground = false;
 		this.colorBackground = Color.WHITE.getRGB();
-	}
-	
-	/**
-	 * Sets the data associated with the point
-	 * @param data the data associated
-	 */
-	public void setDataValue(double data)
-	{
-		this.data = data;
+		this.colorText = Color.WHITE.getRGB();
 	}
 	
 	/**
@@ -77,16 +67,7 @@ public class VAPoint extends PickeableObject{
 	 */
 	public void renderText(boolean b)
 	{
-		this.withText = b;
-	}
-	
-	/**
-	 * Sets if the visualization will show the data
-	 * @param b if the data is going to be rendered
-	 */
-	public void renderData(boolean b)
-	{
-		this.withData = b;
+		this.renderText = b;
 	}
 	
 	/**
@@ -144,7 +125,16 @@ public class VAPoint extends PickeableObject{
 	 * @param currentColor RGB color value
 	 */
 	public void setSelectedColor(int currentColor) {
-		selectedColor = currentColor;
+		colorSelected = currentColor;
+	}
+	
+	/**
+	 * Sets the color for the text
+	 * @param color color RGB value
+	 */
+	public void setTextColor(int color)
+	{
+		colorText = color;
 	}
 	
 	/**
@@ -194,24 +184,12 @@ public class VAPoint extends PickeableObject{
 	protected void drawSelectedState()
 	{
 		int pointSize = size * 2;
-		mainApplet.fill(selectedColor);
-		mainApplet.stroke(selectedColor);
+		mainApplet.fill(colorSelected);
+		mainApplet.stroke(colorSelected);
 		mainApplet.ellipse (posX, posY, pointSize, pointSize);
-		if(withText || withData)
-		{
-			String textToRender = text;
-			if(withText && withData)
-			{
-				DecimalFormat df = new DecimalFormat("#.##");
-				textToRender = textToRender.concat("\n" + df.format(data));
-			}
-			else if(!withText && withData)
-			{
-				DecimalFormat df = new DecimalFormat("#.##");
-				textToRender = df.format(data);
-			}
-			
-			float textWidth = mainApplet.textWidth(textToRender);
+		if(renderText)
+		{	
+			float textWidth = mainApplet.textWidth(text);
 			if(withBackground)
 			{
 				mainApplet.fill(colorBackground);
@@ -219,16 +197,18 @@ public class VAPoint extends PickeableObject{
 				mainApplet.fill(color);
 			}
 			
+			mainApplet.fill(colorText);
 			if(font != null)
 			{
 				mainApplet.textFont(font, textSize);
-				mainApplet.text(textToRender, posX + 5, posY - 5);
+				mainApplet.text(text, posX + 5, posY - 5);
 			}
 			else
 			{
 				mainApplet.textSize(textSize);
-				mainApplet.text(textToRender, posX + 5, posY - 5);
+				mainApplet.text(text, posX + 5, posY - 5);
 			}
+			mainApplet.fill(color);
 		}
 		
 	}

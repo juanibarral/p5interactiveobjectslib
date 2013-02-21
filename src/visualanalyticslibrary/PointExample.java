@@ -13,10 +13,11 @@ public class PointExample extends PApplet implements PickeableObjectListener{
 	
 	public void setup()
 	{
+		double data = 3.2564;
 		point = new VAPoint(250, 250, this);
-		point.setText("Text", null, 15);
-		point.setDataValue(3.2564);
-//		point.renderData(true);
+		
+		point.setUserData(data);
+		point.setText("Data: " + data, null, VAPoint.DEFAULT_TEXT_SIZE);
 		point.renderText(true);
 		point.addListener(this);
 		point.setBackgroundColor(Color.RED.getRGB());
@@ -34,11 +35,9 @@ public class PointExample extends PApplet implements PickeableObjectListener{
 	}
 
 	@Override
-	public void update(PickeableObject object, Object message) {
+	public void update(PickeableObject object) {
 
-		if(message instanceof Integer)
-		{
-			System.out.println("message from " + message);
-		}
+		System.out.println("message from " + object.getClass().getName() + " id: " + object.getId());
+		
 	}
 }

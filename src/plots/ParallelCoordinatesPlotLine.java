@@ -48,7 +48,8 @@ public class ParallelCoordinatesPlotLine extends PickeableObject{
 	{
 		for(int i = 0; i < data.length; i++)
 		{
-			visualPoints[i].setDataValue(data[i]);
+			visualPoints[i].setUserData(data[i]);
+			visualPoints[i].setText(data[i] + "", null, VAPoint.DEFAULT_TEXT_SIZE);
 		}
 	}
 	
@@ -60,7 +61,7 @@ public class ParallelCoordinatesPlotLine extends PickeableObject{
 	{
 		for(int i = 0; i < controlPoints.length; i++)
 		{
-			visualPoints[i].renderData(withText);
+			visualPoints[i].renderText(withText);
 		}
 	}
 	/**

@@ -46,16 +46,16 @@ public class ParallelCoordinatesPlotExample extends PApplet implements Pickeable
 
 	public void draw() 
 	{
-		parallelCoordinatesPlot.mouseIsOverFeedback();
+		if(parallelCoordinatesPlot.mouseIsOverFeedback())
+		{
+			background(1);
+		}
 		parallelCoordinatesPlot.drawPlot();
 	}
 
 	@Override
-	public void update(PickeableObject object, Object message) {
-		if(message instanceof Integer)
-		{
-			System.out.println("message from " + object.getClass().getName() + " : " + message);
-		}
+	public void update(PickeableObject object) {
+		System.out.println("message from " + object.getClass().getName() + " id: " + object.getId());
 		
 	}
 }

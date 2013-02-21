@@ -1,7 +1,6 @@
 package util;
 
 import java.util.ArrayList;
-import java.util.Observable;
 
 import processing.core.PApplet;
 
@@ -13,15 +12,14 @@ import processing.core.PApplet;
  * @version 0.5b
  *
  */
-public abstract class PickeableObject extends Observable{
+public abstract class PickeableObject{
 	protected boolean selected;
 	protected boolean changed;
 	protected PApplet mainApplet;
 	protected int id;
-	
 	protected ArrayList<PickeableObjectListener> listeners;
-	
 	private boolean firstTime = true;
+	protected Object userData;
 	/**
 	 * Basic constructor
 	 */
@@ -40,6 +38,23 @@ public abstract class PickeableObject extends Observable{
 	{
 		this();
 		mainApplet = applet;
+	}
+	
+	/**
+	 * Sets the user data for this object
+	 * @param data user data
+	 */
+	public void setUserData(Object data)
+	{
+		this.userData = data;
+	}
+	/**
+	 * Returns the user data
+	 * @return user data
+	 */
+	public Object getUserData()
+	{
+		return userData;
 	}
 	/**
 	 * Sets the id for the object
@@ -110,7 +125,7 @@ public abstract class PickeableObject extends Observable{
 		{
 			selected = true;
 			changed = true;
-			notifyListeners(id);
+			notifyListeners();
 		}
 		else
 		{
@@ -134,20 +149,10 @@ public abstract class PickeableObject extends Observable{
 	{
 		for(PickeableObjectListener listener : listeners)
 		{
-			listener.update(this, null);
+			listener.update(this);
 		}
 	}
-	/**
-	 * Notifies all listeners that a change has been made
-	 * @param message message to listeners
-	 */
-	public void notifyListeners(Object message)
-	{
-		for(PickeableObjectListener listener : listeners)
-		{
-			listener.update(this, message);
-		}
-	}
+
 	
 	/**
 	 * Adds a new listener for this object

@@ -7,7 +7,6 @@ import plots.SimpleDandelionPlot;
 import processing.core.PApplet;
 import util.PickeableObject;
 import util.PickeableObjectListener;
-import util.VAPoint;
 
 public class SimpleDandelionExample extends PApplet implements PickeableObjectListener{
 
@@ -20,14 +19,18 @@ public class SimpleDandelionExample extends PApplet implements PickeableObjectLi
 		
 		int numOfValues = 10;
 		double[] data = new double[numOfValues];
+		int[] colors = new int[numOfValues];
 		Random r = new Random();
 		for(int i = 0; i < numOfValues; i++)
 		{
 			data[i] = r.nextDouble();
+			Color c = new Color(r.nextFloat(), r.nextFloat(), r.nextFloat());
+			colors[i] = c.getRGB();
 		}
 		
 		try {
 			plot.setData(data);
+			plot.setNodeColors(colors);
 			plot.addListener(this);
 			plot.renderNodesData(true);
 		} catch (Exception e) {
@@ -39,16 +42,16 @@ public class SimpleDandelionExample extends PApplet implements PickeableObjectLi
 	
 	public void draw()
 	{
-		plot.mouseIsOverFeedback();
+		if(plot.mouseIsOverFeedback())
+		{
+			background(1);
+		}
 		plot.drawPlot();
 	}
 
 	@Override
-	public void update(PickeableObject object, Object message) {
+	public void update(PickeableObject object) {
 
-		if(message instanceof Integer)
-		{
-			System.out.println("message from " + message);
-		}
+		System.out.println("message from " + object.getClass().getName() + " id: " + object.getId());
 	}
 }
