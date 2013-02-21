@@ -20,19 +20,24 @@ public class SimpleDandelionExample extends PApplet implements PickeableObjectLi
 		int numOfValues = 100;
 		double[] data = new double[numOfValues];
 		int[] colors = new int[numOfValues];
+		String[] text = new String[numOfValues];
 		Random r = new Random();
 		for(int i = 0; i < numOfValues; i++)
 		{
 			data[i] = r.nextDouble();
 			Color c = new Color(r.nextFloat(), r.nextFloat(), r.nextFloat());
 			colors[i] = c.getRGB();
+			text[i] = "Text " + colors[i];
 		}
 		
 		try {
-			plot.setData(data);
+			
 			plot.setNodeColors(colors);
+			plot.setNodesText(text);
 			plot.addListener(this);
 			plot.renderNodesData(true);
+			
+			plot.setData(data);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

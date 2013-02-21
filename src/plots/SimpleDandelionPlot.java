@@ -32,6 +32,11 @@ public class SimpleDandelionPlot extends PickeableObject {
 	private boolean withBackground;
 	private ArrayList<VAPoint> points;
 	private PApplet mainApplet;
+	private boolean listenerAdded;
+	private boolean renderNodesData;
+	private PickeableObjectListener listener;
+	private String[] nodesText;
+	private int[] nodesColor;
 
 	/**
 	 * Simple Constructor
@@ -50,6 +55,8 @@ public class SimpleDandelionPlot extends PickeableObject {
 		centerY = 50;
 		withBackground = true;
 		points = new ArrayList<VAPoint>();
+		listenerAdded = false;
+		renderNodesData = false;
 	}
 
 	/**
@@ -89,6 +96,7 @@ public class SimpleDandelionPlot extends PickeableObject {
 	 */
 	public void setData(double[] data) throws Exception
 	{
+		points.clear();
 		float radiusGap = 360.0f / (float)(data.length);
 		for(int i = 0; i < data.length; i++)
 		{
@@ -104,11 +112,30 @@ public class SimpleDandelionPlot extends PickeableObject {
 			VAPoint point = new VAPoint(centerX + posX, centerY - posY, mainApplet);
 			point.setId(i);
 			point.setUserData(data[i]);
-			point.setText(data[i] + "", null, VAPoint.DEFAULT_TEXT_SIZE);
-			point.setColor(colorLine);
+			if(nodesText!= null)
+			{
+				point.setText(nodesText[i], null, VAPoint.DEFAULT_TEXT_SIZE);
+			}
+			else
+			{
+				point.setText(data[i] + "", null, VAPoint.DEFAULT_TEXT_SIZE);
+			}
+			if(nodesColor != null)
+			{
+				point.setColor(nodesColor[i]);
+			}
+			else
+			{
+				point.setColor(colorLine);
+			}
 			point.setSelectedColor(colorSelected);
 			point.setBackgroundColor(colorBackground);
 			point.renderBackground(true);
+			if(listenerAdded && listener != null)
+			{
+				point.addListener(listener);
+			}
+			point.renderText(renderNodesData);
 			points.add(point);
 		}
 	}
@@ -119,10 +146,12 @@ public class SimpleDandelionPlot extends PickeableObject {
 	 */
 	public void setNodeColors(int[] colors)
 	{
-		for(int i = 0; i < colors.length; i++)
-		{
-			points.get(i).setColor(colors[i]);
-		}
+		nodesColor = colors;
+	}
+	
+	public void setNodesText(String[] text)
+	{
+		nodesText = text;
 	}
 
 	public boolean mouseIsOver()
@@ -177,10 +206,8 @@ public class SimpleDandelionPlot extends PickeableObject {
 
 	public void addListener(PickeableObjectListener listener)
 	{
-		for(VAPoint p : points)
-		{
-			p.addListener(listener);
-		}
+		listenerAdded = true;
+		this.listener = listener;
 	}
 
 	/**
@@ -189,9 +216,7 @@ public class SimpleDandelionPlot extends PickeableObject {
 	 */
 	public void renderNodesData(boolean b)
 	{
-		for(VAPoint p : points)
-		{
-			p.renderText(b);
-		}
+		this.renderNodesData= b;
+
 	}
 }

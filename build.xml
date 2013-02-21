@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="VisualAnalyticsLibrary" basedir="." default="clean-build">
+	
+	<property name="src.dir"     value="src"/>
+	<property name="build.dir"   value="build"/>
+	<property name="classes.dir" value="${build.dir}/classes"/>
+	<property name="jar.dir"     value="lib"/>
+	<property name="version"     value="0.5b"/>
+	
+	<!-- Put the processing core.jar path-->
+	<property name="processing.dir" value=" Path to core.jar "/>
+	
+	
+	<target name="clean" description="Deletes all contents from build folder">
+		<delete dir = "${build.dir}"/>
+	</target>
+
+	<target name="compile" description="Compiles the sources">
+		<path id="library-path">
+			<pathelement path="${processing.dir}"/>
+			<fileset dir="${processing.dir}">
+				<include name="*.jar"/>
+			</fileset>
+		</path>
+		
+		<mkdir dir="${classes.dir}"/>
+		<javac srcdir="${src.dir}" destdir="${classes.dir}" includeantruntime="false" classpathref="library-path">
+			<compilerarg value="-Xlint:unchecked"/>
+			<compilerarg value="-Xlint:deprecation"/>
+		</javac>
+	</target>
+
+	<target name ="jar" description="Creates a jar for the VisualAnalyticsLibrary project" depends="compile">
+		<mkdir dir="${jar.dir}"/>
+    	<jar destfile="${jar.dir}/${ant.project.name}_V${version}.jar" basedir="${classes.dir}">
+		</jar>
+    </target>
+
+	<target name="clean-build" description="makes a clean build" depends="clean,compile,jar"/>
+</project>
