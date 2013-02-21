@@ -125,7 +125,7 @@ public abstract class PickeableObject{
 		{
 			selected = true;
 			changed = true;
-			notifyListeners();
+			notifyListeners(PickeableObjectEvent.SELECTED);
 		}
 		else
 		{
@@ -145,11 +145,11 @@ public abstract class PickeableObject{
 	/**
 	 * Notifies all listeners that a change has been made
 	 */
-	public void notifyListeners()
+	public void notifyListeners(int event)
 	{
 		for(PickeableObjectListener listener : listeners)
 		{
-			listener.update(this);
+			listener.eventTriggered(new PickeableObjectEvent(this, event));
 		}
 	}
 
@@ -187,6 +187,7 @@ public abstract class PickeableObject{
 			{
 				selected = false;
 				changed = true;
+				notifyListeners(PickeableObjectEvent.UNSELECTED);
 			}
 			else
 			{

@@ -10,7 +10,6 @@
 	<!-- Put the processing core.jar path-->
 	<property name="processing.dir" value=" Path to core.jar "/>
 	
-	
 	<target name="clean" description="Deletes all contents from build folder">
 		<delete dir = "${build.dir}"/>
 	</target>

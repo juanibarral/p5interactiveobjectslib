@@ -1,6 +1,5 @@
 package util;
 
 public interface PickeableObjectListener {
-
-	public void update(PickeableObject object);
+	public void eventTriggered(PickeableObjectEvent event);
 }

@@ -4,6 +4,7 @@ import java.util.Random;
 import plots.ParallelCoordinatesPlot;
 import processing.core.PApplet;
 import util.PickeableObject;
+import util.PickeableObjectEvent;
 import util.PickeableObjectListener;
 
 public class ParallelCoordinatesPlotExample extends PApplet implements PickeableObjectListener{
@@ -54,8 +55,7 @@ public class ParallelCoordinatesPlotExample extends PApplet implements Pickeable
 	}
 
 	@Override
-	public void update(PickeableObject object) {
-		System.out.println("message from " + object.getClass().getName() + " id: " + object.getId());
-		
+	public void eventTriggered(PickeableObjectEvent event){
+		System.out.println("message from " + event.getSource().getClass().getName() + " id: " +  event.getSource().getId() + " event: " + event.getEvent());
 	}
 }
