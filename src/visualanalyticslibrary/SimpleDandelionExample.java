@@ -17,7 +17,7 @@ public class SimpleDandelionExample extends PApplet implements PickeableObjectLi
 		plot = new SimpleDandelionPlot(this, 50, 50, 400);
 		plot.setRange(0, 1);
 		
-		int numOfValues = 10;
+		int numOfValues = 100;
 		double[] data = new double[numOfValues];
 		int[] colors = new int[numOfValues];
 		Random r = new Random();
@@ -44,7 +44,7 @@ public class SimpleDandelionExample extends PApplet implements PickeableObjectLi
 	{
 		if(plot.mouseIsOverFeedback())
 		{
-			background(1);
+			background(Color.LIGHT_GRAY.getRGB());
 		}
 		plot.drawPlot();
 	}
