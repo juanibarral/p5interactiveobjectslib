@@ -3,8 +3,10 @@ package visualanalyticslibrary;
 import java.util.Random;
 import plots.ParallelCoordinatesPlot;
 import processing.core.PApplet;
+import util.PickeableObject;
+import util.PickeableObjectListener;
 
-public class ParallelCoordinatesPlotExample extends PApplet{
+public class ParallelCoordinatesPlotExample extends PApplet implements PickeableObjectListener{
 
 	private ParallelCoordinatesPlot parallelCoordinatesPlot;
 	
@@ -37,11 +39,23 @@ public class ParallelCoordinatesPlotExample extends PApplet{
 		
 		parallelCoordinatesPlot = new ParallelCoordinatesPlot(this, headers, minMax, 50, 50,  600, 400, 50, 50);
 		parallelCoordinatesPlot.setData(data);
+		parallelCoordinatesPlot.renderNodesInfo(true);
+		parallelCoordinatesPlot.addListener(this);
+		parallelCoordinatesPlot.setId(20);
 	}
 
 	public void draw() 
 	{
 		parallelCoordinatesPlot.mouseIsOverFeedback();
 		parallelCoordinatesPlot.drawPlot();
+	}
+
+	@Override
+	public void update(PickeableObject object, Object message) {
+		if(message instanceof Integer)
+		{
+			System.out.println("message from " + object.getClass().getName() + " : " + message);
+		}
+		
 	}
 }

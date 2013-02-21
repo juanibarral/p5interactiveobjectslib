@@ -1,5 +1,8 @@
 package util;
 
+import java.util.ArrayList;
+import java.util.Observable;
+
 import processing.core.PApplet;
 
 /**
@@ -10,20 +13,24 @@ import processing.core.PApplet;
  * @version 0.5b
  *
  */
-public abstract class PickeableObject {
+public abstract class PickeableObject extends Observable{
 	protected boolean selected;
 	protected boolean changed;
 	protected PApplet mainApplet;
 	protected int id;
 	
+	protected ArrayList<PickeableObjectListener> listeners;
+	
+	private boolean firstTime = true;
 	/**
 	 * Basic constructor
 	 */
 	public PickeableObject()
 	{
-		selected = true;
+		selected = false;
 		changed = true;
 		id = 0;
+		listeners = new ArrayList<PickeableObjectListener>();
 	}
 	/**
 	 * Constructor
@@ -95,7 +102,7 @@ public abstract class PickeableObject {
 	}
 	
 	/**
-	 * Sets if the point is selected
+	 * Sets if the object is selected
 	 */
 	public void setSelected()
 	{
@@ -103,11 +110,61 @@ public abstract class PickeableObject {
 		{
 			selected = true;
 			changed = true;
+			notifyListeners(id);
 		}
 		else
 		{
 			changed = false;
 		}
+		
+	}
+	/**
+	 * Get all the listeners of this object
+	 * @return the listeners
+	 */
+	public ArrayList<PickeableObjectListener> getListeners()
+	{
+		return listeners;
+	}
+	
+	/**
+	 * Notifies all listeners that a change has been made
+	 */
+	public void notifyListeners()
+	{
+		for(PickeableObjectListener listener : listeners)
+		{
+			listener.update(this, null);
+		}
+	}
+	/**
+	 * Notifies all listeners that a change has been made
+	 * @param message message to listeners
+	 */
+	public void notifyListeners(Object message)
+	{
+		for(PickeableObjectListener listener : listeners)
+		{
+			listener.update(this, message);
+		}
+	}
+	
+	/**
+	 * Adds a new listener for this object
+	 * @param listener listener to object
+	 */
+	public void addListener(PickeableObjectListener listener)
+	{
+		listeners.add(listener);
+	}
+	
+	/**
+	 * Remove the listener for this object
+	 * @param listener the listener to be removed
+	 */
+	public void removeListener(PickeableObjectListener listener)
+	{
+		listeners.remove(listener);
 	}
 	
 	/**
@@ -115,15 +172,23 @@ public abstract class PickeableObject {
 	 */
 	public void setUnselected()
 	{
-		if(selected)
+		if(firstTime)
 		{
-			selected = false;
-			changed = true;
+			firstTime = false;
 		}
 		else
 		{
-			changed = false;
+			if(selected)
+			{
+				selected = false;
+				changed = true;
+			}
+			else
+			{
+				changed = false;
+			}
 		}
+		
 	}
 	/**
 	 * Returns if the point is selected

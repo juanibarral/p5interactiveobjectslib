@@ -43,6 +43,26 @@ public class ParallelCoordinatesPlotLine extends PickeableObject{
 			visualPoints[i].setColor(unselectedColor);
 		}
 	}
+	
+	public void setData(double[] data)
+	{
+		for(int i = 0; i < data.length; i++)
+		{
+			visualPoints[i].setDataValue(data[i]);
+		}
+	}
+	
+	/**
+	 * Sets if the line will be rendered with text in its nodes
+	 * @param withText if the lines will have text in its nodes
+	 */
+	public void renderPointsData(boolean withText)
+	{
+		for(int i = 0; i < controlPoints.length; i++)
+		{
+			visualPoints[i].renderData(withText);
+		}
+	}
 	/**
 	 * Sets the color for when the line is not selected
 	 * @param unselectedColor RGB color value
@@ -55,16 +75,12 @@ public class ParallelCoordinatesPlotLine extends PickeableObject{
 	 * @param selectedColor RGB color value
 	 */
 	public void setSelectedColor(int selectedColor) {
+		for(VAPoint p : visualPoints)
+		{
+			p.setSelectedColor(selectedColor);
+		}
 		this.selectedColor = selectedColor;
 	}
-//	/**
-//	 * 
-//	 * @param currentColor
-//	 */
-//	public void setCurrentColor(int currentColor)
-//	{
-//		this.selectedColor = currentColor;
-//	}
 	
 	/**
 	 * Returns if the mouse is over the line.

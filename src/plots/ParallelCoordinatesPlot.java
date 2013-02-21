@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import processing.core.PApplet;
 import util.PickeableObject;
+import util.PickeableObjectListener;
 
 /**
  * It is a class that represents a parallel coordinates plot.
@@ -27,7 +28,6 @@ public class ParallelCoordinatesPlot extends PickeableObject{
 	private int height;
 	private int horizontalGap; 
 	private int verticalGap;
-
 	private int axisColor;
 	private int colorLine;
 	private int colorSelected;
@@ -40,6 +40,7 @@ public class ParallelCoordinatesPlot extends PickeableObject{
 
 	private int axisYUpperPosition;
 	private int axisYLowerPosition;
+	private int axisTextSize = 14;
 
 	private boolean withBackground;
 	
@@ -149,14 +150,22 @@ public class ParallelCoordinatesPlot extends PickeableObject{
 				points[j][1] = posY + height - verticalGap - (int)PApplet.map((float)lineData[j], (float)minMax[j][0], (float)minMax[j][1], 0, (float)lineLength);
 			}
 			ParallelCoordinatesPlotLine line = new ParallelCoordinatesPlotLine(mainApplet, points);
+			line.setData(lineData);
 			line.setUnselectedColor(colorLine);
 			line.setSelectedColor(colorSelected);
-			line.setId((i + 1) * 100);
+			line.setId(i);
 			lines.add(line);
-
 		}
 	}
 
+	public void addListener(PickeableObjectListener listener)
+	{
+		for(ParallelCoordinatesPlotLine line : lines)
+		{
+			line.addListener(listener);
+		}
+	}
+	
 	/**
 	 * Sets the color of the lines
 	 * @param lineColor RGB color value
@@ -245,7 +254,6 @@ public class ParallelCoordinatesPlot extends PickeableObject{
 			if(!autoSelection)
 			{
 				line.mouseIsOverFeedback();
-				
 			}
 			line.setChanged();
 			line.drawLine();
@@ -271,7 +279,7 @@ public class ParallelCoordinatesPlot extends PickeableObject{
 			String header = headers[i] + "\n" + minMax[i][0] + " to " + minMax[i][1];
 			float textWidth = mainApplet.textWidth(header);
 			mainApplet.fill(colorText);
-			mainApplet.text(header, axisXPositions[i] - (int)(textWidth/2),  axisYLowerPosition + 15);
+			mainApplet.text(header, axisXPositions[i] - (int)(textWidth/2),  axisYLowerPosition + 15, axisTextSize);
 		}
 	}
 	
@@ -288,6 +296,18 @@ public class ParallelCoordinatesPlot extends PickeableObject{
 				drawLines();
 			}
 			changed = false;
+		}
+	}
+	
+	/**
+	 * Sets if the plot will render the values of the points
+	 * @param b if the nodes will render their info
+	 */
+	public void renderNodesInfo(boolean b)
+	{
+		for(ParallelCoordinatesPlotLine line : lines)
+		{
+			line.renderPointsData(b);
 		}
 	}
 }

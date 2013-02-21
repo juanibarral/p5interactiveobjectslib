@@ -4,9 +4,11 @@ import java.awt.Color;
 
 import processing.core.PApplet;
 
+import util.PickeableObject;
+import util.PickeableObjectListener;
 import util.VAPoint;
 
-public class MultiplePointsExample extends PApplet{
+public class MultiplePointsExample extends PApplet implements PickeableObjectListener{
 
 	private VAPoint[] points;
 
@@ -17,11 +19,15 @@ public class MultiplePointsExample extends PApplet{
 
 		size(sizeX, sizeY);
 
-		int numberOfPoints = 300;
+		int numberOfPoints = 100;
 		points = new VAPoint[numberOfPoints];
 		for(int i = 0; i < numberOfPoints; i ++)
 		{
 			points[i] = new VAPoint((int)random(0, 500), (int)random(0,500), this);
+			points[i].setId(i);
+			points[i].addListener(this);
+			points[i].setDataValue(i);
+			points[i].renderData(true);
 		}
 	}
 
@@ -48,5 +54,14 @@ public class MultiplePointsExample extends PApplet{
 			}
 			point.drawPoint();
 		}
+	}
+
+	@Override
+	public void update(PickeableObject object, Object message) {
+		if(message instanceof Integer)
+		{
+			System.out.println("message from " + message);
+		}
+		
 	}
 }
