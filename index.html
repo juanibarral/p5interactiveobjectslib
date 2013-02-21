@@ -43,12 +43,8 @@
 	<h5>How to compile</h5>
 	If you want to compile yourself there is a build.xml file that runs over <a href="http://ant.apache.org">ant</a>. You need to specify the path of processing's core.jar in this file. Open the build.xml file 
 	and change the corresponding line. Remember that is only the path, so you don't need to add core.jar at the end
-	<pre>
-		<code>
-				!-- Put the processing core.jar path--
-				property name="processing.dir" value=" your/Path/to/jar/ "/
-		</code>
-	</pre>
+	<pre><code>&#60!-- Put the processing core.jar path--&#62
+&#60property name="processing.dir" value=" your/Path/to/jar/ "/&#62</code></pre>
 	
 	After you change the file, just type ant in the console: (You need to have ant installed and the system classpath configured)
 	<pre><code>$ cd your_download_root/
