@@ -33,12 +33,26 @@
       <section id="main_content" class="inner">
         <h3>Welcome to P5 Visual Analytics Library.</h3>
 
-<p>This is a interactive objects library written in Java over <a href="http://www.processing.org">Processing</a>. The main feature is that the elements have their own feedback and are optimized to be drawn only when necessary.</p>
+<p>This is a interactive objects library written in Java over <a href="http://www.processing.org">Processing</a>. The main feature is that the elements have their own feedback and are optimized to be drawn only when necessary.
+<br>All the objects extends a base object called PickeableObject that has 2 basic states: selected and unselected. Depending on its state the object will be drawn in a different way.
+</p>
 
+<h3>Pickeable Object</h3>
+<p>
+	It is the base for the interactive objects. It is an abstract class that has all the functionality for the interactive object.
+	It has two main states: <b>selected</b> and <b>unselected</b> which are set depending if the mouse is over the object or not. 
+	Also each object launch events depending on its state. Finally, an object has an attribute that tells if the object has changed or not.	
+</p>
 
-<h3>Visual Elements</h3>
+<h3>Array of Pickeable Objects</h3>
+<p>
+	When there is more than one pickeable object, it is necessary to know when to draw the objects and when not. The objects must be drawn
+	when at least one of the objects has changed. In order to facilitate the workflow of the flags necessary to choose when or not to draw, there is the <b>PickeableObjectArray</b>.
+	
+</p>
+<h3>Basic Elements</h3>
 
-<p>There are simple elements to use as wel as complete plots with whole funcionality.
+<p>There are simple elements to use as well as complete plots with whole funcionality.
 	<ul>
 		<li> <a href="point.html">Point</a>
 		<li> <a href="parallelCordinatesPlot.html">Parallel Coordinates Plot</a>
