@@ -50,21 +50,55 @@
 	<pre><code>$ cd your_download_root/
 $ ant</code></pre>
 	Also you can use <a href="http://www.eclipse.org">eclipse</a> to do that. <a href="http://help.eclipse.org/juno/index.jsp?topic=%2Forg.eclipse.platform.doc.user%2FgettingStarted%2Fqs-84_run_ant.htm">link</a>
+	Once you have the jar, you are ready to use it! Just add it to the classpath of your project
+	
 </p>
-<h4>Pickeable Object</h4>
+
+<h4>How to use it</h4>
+<p>
+	The library has its basic elements and also can be extended using the base object: PickeableObject. In each page of the basic elements you can find example code.
+	The most basic element is the point. By default a point is rendered as a circle and when selected as a bigger circle.
+	<pre><code>
+		import java.awt.Color;
+import processing.core.PApplet;
+import util.VAPoint;
+
+public class SimplePointExample extends PApplet {
+
+	private static final long serialVersionUID = 1L;
+	private VAPoint point;
+	
+	public void setup()
+	{
+		point = new VAPoint(100,100,this);
+		size(200,200);
+	}
+	
+	public void draw()
+	{
+		if(point.mouseIsOverFeedback())
+		{
+			background(Color.LIGHT_GRAY.getRGB());
+		}
+		point.drawObject();
+	}
+}
+	</code></pre>
+</p>
+<h5>Pickeable Object</h5>
 <p>
 	It is the base for the interactive objects. It is an abstract class that has all the functionality for the interactive object.
 	It has two main states: <b>selected</b> and <b>unselected</b> which are set depending if the mouse is over the object or not. 
 	Also each object launch events depending on its state. Finally, an object has an attribute that tells if the object has changed or not.	
 </p>
 
-<h4>Array of Pickeable Objects</h4>
+<h5>Array of Pickeable Objects</h5>
 <p>
 	When there is more than one pickeable object, it is necessary to know when to draw the objects and when not. The objects must be drawn
 	when at least one of the objects has changed. In order to facilitate the workflow of the flags necessary to choose when or not to draw, there is the <b>PickeableObjectArray</b>.
 	<br> This object works as a container and has a method draw() which is in charge of calling the object's drawing methods if necessary. 
 </p>
-<h4>Basic Elements</h4>
+<h5>Basic Elements</h5>
 
 <p>There are simple elements to use as well as complete plots with whole funcionality.
 	<ul>
