@@ -79,7 +79,7 @@ public class SimpleDandelionPlot extends PickeableObject {
 		this.centerX = this.posX + (int)((float)width / 2);
 		this.centerY = this.posY + (int)((float)width / 2);
 	}
-	
+
 	/**
 	 * Sets the center offset, the distance from the center where the axis will begin
 	 * @param offset in pixels
@@ -118,7 +118,7 @@ public class SimpleDandelionPlot extends PickeableObject {
 				throw new Exception ("Data out of range " + d + ", [" + minValue + "," + maxValue + "]");
 			}
 			float radius = PApplet.map((float)d, (float)minValue, (float)maxValue, centerOffset, (float)maxLineLength);
-			
+
 			int posX = (int) (radius * Math.cos(Math.toRadians(radiusGap  * i)));
 			int posY = (int) (radius * Math.sin(Math.toRadians(radiusGap  * i)));
 
@@ -152,7 +152,62 @@ public class SimpleDandelionPlot extends PickeableObject {
 			points.add(point);
 		}
 	}
-	
+
+	/**
+	 * Sets the data for the plot
+	 * @param data the data 
+	 * @throws Exception if the data is out of range
+	 */
+	public void setData(double[][] data) throws Exception
+	{
+		points.clear();
+		float radiusGap = 360.0f / (float)(data.length);
+		for(int i = 0; i < data.length; i++)
+		{
+			for(int j = 0; j < data[i].length; j++)
+			{
+				double d = data[i][j];
+				if(d < minValue || d > maxValue)
+				{
+					throw new Exception ("Data out of range " + d + ", [" + minValue + "," + maxValue + "]");
+				}
+				float radius = PApplet.map((float)d, (float)minValue, (float)maxValue, centerOffset, (float)maxLineLength);
+
+				int posX = (int) (radius * Math.cos(Math.toRadians(radiusGap  * i)));
+				int posY = (int) (radius * Math.sin(Math.toRadians(radiusGap  * i)));
+
+				VAPoint point = new VAPoint(centerX + posX, centerY - posY, mainApplet);
+				point.setId(i);
+				point.setUserData(data[i]);
+				if(nodesText!= null)
+				{
+					point.setText(nodesText[i], null, VAPoint.DEFAULT_TEXT_SIZE);
+				}
+				else
+				{
+					point.setText(data[i] + "", null, VAPoint.DEFAULT_TEXT_SIZE);
+				}
+				if(nodesColor != null)
+				{
+					point.setColor(nodesColor[i]);
+				}
+				else
+				{
+					point.setColor(colorLine);
+				}
+				point.setSelectedColor(colorSelected);
+				point.setBackgroundColor(colorBackground);
+				point.renderBackground(true);
+				if(listenerAdded && listener != null)
+				{
+					point.addListener(listener);
+				}
+				point.renderText(renderNodesData);
+				points.add(point);
+			}
+		}
+	}
+
 	/**
 	 * Sets the color for the unselected nodes
 	 * @param colors list of colors in RGB
@@ -161,7 +216,7 @@ public class SimpleDandelionPlot extends PickeableObject {
 	{
 		nodesColor = colors;
 	}
-	
+
 	public void setNodesText(String[] text)
 	{
 		nodesText = text;
@@ -203,13 +258,13 @@ public class SimpleDandelionPlot extends PickeableObject {
 			{
 				mainApplet.strokeWeight(1);
 				mainApplet.stroke(colorLine);
-				
+
 				int posX = p.getPosX() - centerX;
 				int posY = p.getPosY() - centerY;
 				int distance = (int) Math.sqrt(( posX * posX) + (posY * posY));
 				int initX = (int)((float)posX / (float)distance * centerOffset);
 				int initY = (int)((float)posY / (float)distance * centerOffset);
-				
+
 				mainApplet.line(centerX + initX, centerY + initY, p.getPosX(), p.getPosY());
 
 			}

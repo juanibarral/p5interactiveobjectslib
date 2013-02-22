@@ -10,12 +10,12 @@ public class MyPoint extends VAPoint {
 	}
 	@Override
 	protected void drawUnselectedState() {
-		mainApplet.rect((float)posX, (float)posY, size, size);
+		mainApplet.rect((float)posX, (float)posY, size * 2 , size * 2);
 	}
 
 	@Override
 	protected void drawSelectedState() {
 
-		mainApplet.triangle((float)posX, (float)posY, (float)posX + size, (float)posY, (float)posX + (size/2), (float)posY - size);
+		mainApplet.triangle((float)posX, (float)posY, (float)posX + (size * 2), (float)posY, (float)posX + (size), (float)posY - (size * 2));
 	}
 }

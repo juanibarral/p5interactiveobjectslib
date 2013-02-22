@@ -18,7 +18,7 @@ public abstract class PickeableObject{
 	protected PApplet mainApplet;
 	protected int id;
 	protected ArrayList<PickeableObjectListener> listeners;
-	private boolean firstTime = true;
+	protected boolean firstTime = true;
 	protected Object userData;
 	/**
 	 * Basic constructor

@@ -209,4 +209,20 @@ public class VAPoint extends PickeableObject{
 		}
 		
 	}
+	
+	public Object clone()
+	{
+		VAPoint clone = new VAPoint(posX, posY, mainApplet);
+		clone.color = color;
+		clone.colorBackground = colorBackground;
+		clone.colorSelected = colorSelected;
+		clone.colorText = colorText;
+		clone.font = font;
+		clone.renderText = renderText;
+		clone.size = size;
+		clone.text = text;
+		clone.textSize = textSize;
+		clone.withBackground = withBackground;
+		return clone;
+	}
 }
