@@ -37,6 +37,7 @@ public class SimpleDandelionPlot extends PickeableObject {
 	protected PickeableObjectListener listener;
 	protected String[] nodesText;
 	protected int[] nodesColor;
+	protected int centerOffset;
 
 	/**
 	 * Simple Constructor
@@ -57,6 +58,7 @@ public class SimpleDandelionPlot extends PickeableObject {
 		points = new ArrayList<VAPoint>();
 		listenerAdded = false;
 		renderNodesData = false;
+		centerOffset = 0;
 	}
 
 	/**
@@ -76,6 +78,16 @@ public class SimpleDandelionPlot extends PickeableObject {
 		this.maxLineLength = (int)((float)(width - gap) / 2.0f);
 		this.centerX = this.posX + (int)((float)width / 2);
 		this.centerY = this.posY + (int)((float)width / 2);
+	}
+	
+	/**
+	 * Sets the center offset, the distance from the center where the axis will begin
+	 * @param offset in pixels
+	 */
+	public void setCenterOffset(int offset)
+	{
+		this.centerOffset = offset;
+		this.maxLineLength = (int)((float)(width - gap) / 2.0f);
 	}
 
 	/**
@@ -105,7 +117,8 @@ public class SimpleDandelionPlot extends PickeableObject {
 			{
 				throw new Exception ("Data out of range " + d + ", [" + minValue + "," + maxValue + "]");
 			}
-			float radius = PApplet.map((float)d, (float)minValue, (float)maxValue, 0, (float)maxLineLength);
+			float radius = PApplet.map((float)d, (float)minValue, (float)maxValue, centerOffset, (float)maxLineLength);
+			
 			int posX = (int) (radius * Math.cos(Math.toRadians(radiusGap  * i)));
 			int posY = (int) (radius * Math.sin(Math.toRadians(radiusGap  * i)));
 
@@ -190,7 +203,14 @@ public class SimpleDandelionPlot extends PickeableObject {
 			{
 				mainApplet.strokeWeight(1);
 				mainApplet.stroke(colorLine);
-				mainApplet.line(centerX, centerY, p.getPosX(), p.getPosY());
+				
+				int posX = p.getPosX() - centerX;
+				int posY = p.getPosY() - centerY;
+				int distance = (int) Math.sqrt(( posX * posX) + (posY * posY));
+				int initX = (int)((float)posX / (float)distance * centerOffset);
+				int initY = (int)((float)posY / (float)distance * centerOffset);
+				
+				mainApplet.line(centerX + initX, centerY + initY, p.getPosX(), p.getPosY());
 
 			}
 			for(VAPoint p : points)
