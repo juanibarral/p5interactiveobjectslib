@@ -14,18 +14,18 @@ import processing.core.PFont;
 public class VAPoint extends PickeableObject{
 
 	public static final int DEFAULT_TEXT_SIZE = 14;
-	private int posX;
-	private int posY;
-	private int color;
-	private int colorSelected;
-	private int size = 5;
-	private String text;
-	private PFont font;
-	private int textSize;
-	private boolean renderText;
-	private boolean withBackground;
-	private int colorBackground;
-	private int colorText;
+	protected int posX;
+	protected int posY;
+	protected int color;
+	protected int colorSelected;
+	protected int size = 5;
+	protected String text;
+	protected PFont font;
+	protected int textSize;
+	protected boolean renderText;
+	protected boolean withBackground;
+	protected int colorBackground;
+	protected int colorText;
 
 	/**
 	 * Basic constructor
@@ -45,7 +45,7 @@ public class VAPoint extends PickeableObject{
 		this.textSize = DEFAULT_TEXT_SIZE;
 		this.withBackground = false;
 		this.colorBackground = Color.WHITE.getRGB();
-		this.colorText = Color.WHITE.getRGB();
+		this.colorText = Color.BLACK.getRGB();
 	}
 	
 	/**
@@ -137,10 +137,7 @@ public class VAPoint extends PickeableObject{
 		colorText = color;
 	}
 	
-	/**
-	 * Draw the point only if it is necessary (if the state has changed)
-	 */
-	public void drawPoint()
+	public void drawObject()
 	{
 		if(changed)
 		{			

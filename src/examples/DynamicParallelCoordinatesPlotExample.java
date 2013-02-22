@@ -1,25 +1,21 @@
-package visualanalyticslibrary;
+package examples;
 
 import java.awt.Color;
 import java.util.Random;
-
 import plots.ParallelCoordinatesPlot;
-import plots.ParallelCoordinatesPlotLine;
 import processing.core.PApplet;
+import util.PickeableObjectArray;
+import util.PickeableObjectEvent;
+import util.PickeableObjectListener;
 import util.VAPoint;
 
 
-public class VisualAnalyticsLibrary extends PApplet {
+public class DynamicParallelCoordinatesPlotExample extends PApplet implements PickeableObjectListener{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-	
 	private ParallelCoordinatesPlot parallelCoordinatesPlot;
 	private VAPoint point;
-	private ParallelCoordinatesPlotLine plotLine;
-	
+	private PickeableObjectArray array;
 	private int sizeX;
 	private int sizeY;
 
@@ -27,7 +23,7 @@ public class VisualAnalyticsLibrary extends PApplet {
 	{
 		sizeX = 1000;
 		sizeY = 500;
-		
+		array = new PickeableObjectArray(this);
 		int coordinatesSize = 9;
 		int dataSize = 9;
 		
@@ -53,66 +49,19 @@ public class VisualAnalyticsLibrary extends PApplet {
 		}
 		
 		parallelCoordinatesPlot = new ParallelCoordinatesPlot(this, headers, minMax, 50, 50,  600, 300, 50, 50);
-		parallelCoordinatesPlot.setData(data);
-		
+		parallelCoordinatesPlot.setData(data);	
 		size(sizeX,sizeY);
-		
 		point = new VAPoint(800, 250, this);
 		point.setSize(50);
-//		
-//		int[][] points = new int[][]{{100,100}, {200,200}, {150,362}};
-//		plotLine = new ParallelCoordinatesPlotLine(this, points);
+		point.setId(111);
+		point.addListener(this);
+		array.add(parallelCoordinatesPlot);
+		array.add(point);
 	}
 
 	public void draw() 
 	{
-		/*
-		if(point.mouseIsOverReaction())
-		{
-			background(Color.GRAY.getRGB());
-		}
-		point.drawPoint();
-//		*/
-		/*
-		if(plotLine.mouseIsOverReaction())
-		{
-			background(Color.GRAY.getRGB());
-		}
-		plotLine.drawLine();
-//		*/
-		/*
-		if(parallelCoordinatesPlot.mouseIsOverReaction())
-		{
-			background(Color.GRAY.getRGB());
-		}
-		parallelCoordinatesPlot.drawPlot();
-		
-		
-//		*/
-//		/*
-		
-		if(parallelCoordinatesPlot.mouseIsOverFeedback())
-		{
-			background(Color.GRAY.getRGB());
-			if(!point.mouseIsOverFeedback())
-			{
-				point.setChanged();
-			}
-		}
-		else if(point.mouseIsOverFeedback())
-		{
-			background(Color.GRAY.getRGB());
-			parallelCoordinatesPlot.setSelectedLines(new int[]{1,3,5});
-//			if(!parallelCoordinatesPlot.mouseIsOverFeedback())
-//			{
-//				parallelCoordinatesPlot.setChanged();
-//			}
-		}
-		
-		
-		parallelCoordinatesPlot.drawPlot();
-		point.drawPoint();
-		//*/
+		array.draw(Color.WHITE.getRGB());
 	}
 	
 	public void setDataForPlot()
@@ -143,5 +92,17 @@ public class VisualAnalyticsLibrary extends PApplet {
 			}
 		}
 		parallelCoordinatesPlot.setNewData(headers, minMax, data);
+	}
+
+	@Override
+	public void eventTriggered(PickeableObjectEvent event) {
+		if(event.getSource() instanceof VAPoint)
+		{
+			if(event.getEventType() == PickeableObjectEvent.SELECTED && event.getSource().getId() == 111)
+			{
+				setDataForPlot();
+			}
+		}
+		
 	}
 }

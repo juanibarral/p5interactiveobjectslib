@@ -41,6 +41,7 @@ public class ParallelCoordinatesPlotLine extends PickeableObject{
 			visualPoints[i] = new VAPoint(controlPoints[i][0], controlPoints[i][1], mainApplet);
 			visualPoints[i].setId(i);
 			visualPoints[i].setColor(unselectedColor);
+			visualPoints[i].setTextColor(selectedColor);
 		}
 	}
 	
@@ -113,14 +114,11 @@ public class ParallelCoordinatesPlotLine extends PickeableObject{
 		super.setChanged();
 		updateLines = true;
 	}
-	/**
-	 * Draws the line depending on its state
-	 */
-	public void drawLine()
+
+	public void drawObject()
 	{
 		if(changed)
 		{
-//			System.out.println("drawing line");
 			int startX = controlPoints[0][0];
 			int startY = controlPoints[0][1];
 			int endX = 0;
@@ -141,7 +139,7 @@ public class ParallelCoordinatesPlotLine extends PickeableObject{
 				{
 					p.setChanged();
 				}
-				p.drawPoint();
+				p.drawObject();
 			}
 			
 			for(int i = 1; i < controlPoints.length; i++)

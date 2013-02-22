@@ -17,26 +17,26 @@ import util.VAPoint;
  * @version 0.5b
  */
 public class SimpleDandelionPlot extends PickeableObject {
-	private int posY;
-	private int posX;
-	private int width;
-	private int gap; 
-	private int colorLine;
-	private int colorSelected;
-	private int colorBackground;
-	private double minValue;
-	private double maxValue;
-	private int maxLineLength;
-	private int centerX;
-	private int centerY;
-	private boolean withBackground;
-	private ArrayList<VAPoint> points;
-	private PApplet mainApplet;
-	private boolean listenerAdded;
-	private boolean renderNodesData;
-	private PickeableObjectListener listener;
-	private String[] nodesText;
-	private int[] nodesColor;
+	protected int posY;
+	protected int posX;
+	protected int width;
+	protected int gap; 
+	protected int colorLine;
+	protected int colorSelected;
+	protected int colorBackground;
+	protected double minValue;
+	protected double maxValue;
+	protected int maxLineLength;
+	protected int centerX;
+	protected int centerY;
+	protected boolean withBackground;
+	protected ArrayList<VAPoint> points;
+	protected PApplet mainApplet;
+	protected boolean listenerAdded;
+	protected boolean renderNodesData;
+	protected PickeableObjectListener listener;
+	protected String[] nodesText;
+	protected int[] nodesColor;
 
 	/**
 	 * Simple Constructor
@@ -174,10 +174,8 @@ public class SimpleDandelionPlot extends PickeableObject {
 		return mouseIsOver;
 	}
 
-	/**
-	 * Draws the plot
-	 */
-	public void drawPlot()
+
+	public void drawObject()
 	{
 		if(changed)
 		{
@@ -199,7 +197,7 @@ public class SimpleDandelionPlot extends PickeableObject {
 			{
 				p.mouseIsOverFeedback();
 				p.setChanged();
-				p.drawPoint();
+				p.drawObject();
 			}
 		}
 	}

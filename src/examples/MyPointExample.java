@@ -1,22 +1,21 @@
-package visualanalyticslibrary;
+package examples;
 
 import java.awt.Color;
 
 import processing.core.PApplet;
-import util.PickeableObject;
 import util.PickeableObjectEvent;
 import util.PickeableObjectListener;
 import util.VAPoint;
 
-public class PointExample extends PApplet implements PickeableObjectListener{
+public class MyPointExample extends PApplet implements PickeableObjectListener{
 
-	private VAPoint point;
+	private static final long serialVersionUID = 1L;
+	private MyPoint point;
 	
 	public void setup()
 	{
 		double data = 3.2564;
-		point = new VAPoint(250, 250, this);
-		
+		point = new MyPoint(250, 250, this);
 		point.setUserData(data);
 		point.setText("Data: " + data, null, VAPoint.DEFAULT_TEXT_SIZE);
 		point.renderText(true);
@@ -32,11 +31,11 @@ public class PointExample extends PApplet implements PickeableObjectListener{
 		{
 			background(Color.white.getRGB());
 		}
-		point.drawPoint();
+		point.drawObject();
 	}
 
 	@Override
 	public void eventTriggered(PickeableObjectEvent event){
-		System.out.println("message from " + event.getSource().getClass().getName() + " id: " +  event.getSource().getId() + " event: " + event.getEvent());
+		System.out.println("message from " + event.getSource().getClass().getName() + " id: " +  event.getSource().getId() + " event: " + event.getEventType());
 	}
 }

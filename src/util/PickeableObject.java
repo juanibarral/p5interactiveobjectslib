@@ -212,5 +212,13 @@ public abstract class PickeableObject{
 	{
 		return changed;
 	}
+	
+	/**
+	 * Draws the object
+	 */
+	public void drawObject()
+	{
+		
+	}
 
 }

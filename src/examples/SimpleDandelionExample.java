@@ -1,16 +1,15 @@
-package visualanalyticslibrary;
+package examples;
 
 import java.awt.Color;
 import java.util.Random;
-
 import plots.SimpleDandelionPlot;
 import processing.core.PApplet;
-import util.PickeableObject;
 import util.PickeableObjectEvent;
 import util.PickeableObjectListener;
 
 public class SimpleDandelionExample extends PApplet implements PickeableObjectListener{
 
+	private static final long serialVersionUID = 1L;
 	private SimpleDandelionPlot plot;
 	
 	public void setup()
@@ -52,11 +51,11 @@ public class SimpleDandelionExample extends PApplet implements PickeableObjectLi
 		{
 			background(Color.LIGHT_GRAY.getRGB());
 		}
-		plot.drawPlot();
+		plot.drawObject();
 	}
 
 	@Override
 	public void eventTriggered(PickeableObjectEvent event){
-		System.out.println("message from " + event.getSource().getClass().getName() + " id: " +  event.getSource().getId() + " event: " + event.getEvent());
+		System.out.println("message from " + event.getSource().getClass().getName() + " id: " +  event.getSource().getId() + " event: " + event.getEventType());
 	}
 }

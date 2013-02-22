@@ -256,7 +256,7 @@ public class ParallelCoordinatesPlot extends PickeableObject{
 				line.mouseIsOverFeedback();
 			}
 			line.setChanged();
-			line.drawLine();
+			line.drawObject();
 		}
 		autoSelection = false;
 	}
@@ -283,10 +283,7 @@ public class ParallelCoordinatesPlot extends PickeableObject{
 		}
 	}
 	
-	/**
-	 * Draws the plot if its necessary
-	 */
-	public void drawPlot()
+	public void drawObject()
 	{
 		if(changed)
 		{

@@ -1,14 +1,14 @@
-package visualanalyticslibrary;
+package examples;
 
 import java.util.Random;
 import plots.ParallelCoordinatesPlot;
 import processing.core.PApplet;
-import util.PickeableObject;
 import util.PickeableObjectEvent;
 import util.PickeableObjectListener;
 
 public class ParallelCoordinatesPlotExample extends PApplet implements PickeableObjectListener{
 
+	private static final long serialVersionUID = 1L;
 	private ParallelCoordinatesPlot parallelCoordinatesPlot;
 	
 	public void setup() 
@@ -51,11 +51,11 @@ public class ParallelCoordinatesPlotExample extends PApplet implements Pickeable
 		{
 			background(1);
 		}
-		parallelCoordinatesPlot.drawPlot();
+		parallelCoordinatesPlot.drawObject();
 	}
 
 	@Override
 	public void eventTriggered(PickeableObjectEvent event){
-		System.out.println("message from " + event.getSource().getClass().getName() + " id: " +  event.getSource().getId() + " event: " + event.getEvent());
+		System.out.println("message from " + event.getSource().getClass().getName() + " id: " +  event.getSource().getId() + " event: " + event.getEventType());
 	}
 }
