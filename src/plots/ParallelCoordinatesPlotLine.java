@@ -3,8 +3,8 @@ package plots;
 import java.awt.Color;
 
 import processing.core.PApplet;
-import util.PickeableObject;
-import util.VAPoint;
+import util.AbstractInteractiveObject;
+import util.InteractivePoint;
 
 /**
  * It is a class that represents a line in the plot.
@@ -14,10 +14,10 @@ import util.VAPoint;
  * @author Juan Camilo Ibarra
  * @version 0.5b
  */
-public class ParallelCoordinatesPlotLine extends PickeableObject{
+public class ParallelCoordinatesPlotLine extends AbstractInteractiveObject{
 
 	private int[][] controlPoints;
-	private VAPoint[] visualPoints;
+	private InteractivePoint[] visualPoints;
 	private int unselectedColor;
 	private int selectedColor;
 	private boolean updateLines;
@@ -31,14 +31,14 @@ public class ParallelCoordinatesPlotLine extends PickeableObject{
 	{
 		super(mainApplet);
 		this.controlPoints = points;
-		this.visualPoints = new VAPoint[controlPoints.length];
+		this.visualPoints = new InteractivePoint[controlPoints.length];
 		this.unselectedColor = Color.WHITE.getRGB();
 		this.selectedColor = Color.YELLOW.getRGB();
 		this.updateLines = false;
 		
 		for(int i = 0; i < controlPoints.length; i++)
 		{
-			visualPoints[i] = new VAPoint(controlPoints[i][0], controlPoints[i][1], mainApplet);
+			visualPoints[i] = new InteractivePoint(controlPoints[i][0], controlPoints[i][1], mainApplet);
 			visualPoints[i].setId(i);
 			visualPoints[i].setColor(unselectedColor);
 			visualPoints[i].setTextColor(selectedColor);
@@ -50,7 +50,7 @@ public class ParallelCoordinatesPlotLine extends PickeableObject{
 		for(int i = 0; i < data.length; i++)
 		{
 			visualPoints[i].setUserData(data[i]);
-			visualPoints[i].setText(data[i] + "", null, VAPoint.DEFAULT_TEXT_SIZE);
+			visualPoints[i].setText(data[i] + "", null, InteractivePoint.DEFAULT_TEXT_SIZE);
 		}
 	}
 	
@@ -77,7 +77,7 @@ public class ParallelCoordinatesPlotLine extends PickeableObject{
 	 * @param selectedColor RGB color value
 	 */
 	public void setSelectedColor(int selectedColor) {
-		for(VAPoint p : visualPoints)
+		for(InteractivePoint p : visualPoints)
 		{
 			p.setSelectedColor(selectedColor);
 		}
@@ -93,7 +93,7 @@ public class ParallelCoordinatesPlotLine extends PickeableObject{
 	{
 		boolean noneSelected = true;
 		boolean mouseIsOver = false;
-		for(VAPoint p : visualPoints)
+		for(InteractivePoint p : visualPoints)
 		{
 			if(p.mouseIsOver())
 			{
@@ -123,7 +123,7 @@ public class ParallelCoordinatesPlotLine extends PickeableObject{
 			int startY = controlPoints[0][1];
 			int endX = 0;
 			int endY = 0;
-			for(VAPoint p : visualPoints)
+			for(InteractivePoint p : visualPoints)
 			{
 				if(isSelected())
 				{

@@ -1,17 +1,17 @@
-package examples;
+package pointExamples;
 
 import java.awt.Color;
 import processing.core.PApplet;
-import util.VAPoint;
+import util.InteractivePoint;
 
 public class SimplePointExample extends PApplet {
 
 	private static final long serialVersionUID = 1L;
-	private VAPoint point;
+	private InteractivePoint point;
 	
 	public void setup()
 	{
-		point = new VAPoint(100,100,this);
+		point = new InteractivePoint(100,100,this);
 		size(200,200);
 	}
 	

@@ -1,14 +1,17 @@
-package examples;
+package plotExamples;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.Random;
 
 import plots.SimpleLinePlot;
+import pointExamples.MyPoint;
 import processing.core.PApplet;
-import util.PickeableObjectEvent;
-import util.PickeableObjectListener;
+import util.InteractiveObjectEvent;
+import util.InteractiveObjectListener;
+import util.InteractivePoint;
 
-public class SimpleLinePlotExample extends PApplet implements PickeableObjectListener{
+public class SimpleLinePlotExample extends PApplet implements InteractiveObjectListener{
 
 	private static final long serialVersionUID = 1L;
 	private SimpleLinePlot plot;
@@ -40,7 +43,16 @@ public class SimpleLinePlotExample extends PApplet implements PickeableObjectLis
 			plot.renderNodesData(true);
 			
 			plot.setData(data);
-			plot.setNewPointType(MyPoint.class.getName());
+			
+			ArrayList<InteractivePoint> newPoints = new ArrayList<InteractivePoint>();
+			for(int i = 0; i < numOfValues; i++)
+			{
+				MyPoint newPoint = new MyPoint(0, 0, this);
+				newPoint.setImages("C:/Users/usuario/Downloads/selected.png", "C:/Users/usuario/Downloads/unselected.png");
+				newPoints.add(newPoint);
+			}
+			
+			plot.setNewPoints(newPoints);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -58,7 +70,7 @@ public class SimpleLinePlotExample extends PApplet implements PickeableObjectLis
 	}
 
 	@Override
-	public void eventTriggered(PickeableObjectEvent event){
+	public void eventTriggered(InteractiveObjectEvent event){
 		System.out.println("message from " + event.getSource().getClass().getName() + " id: " +  event.getSource().getId() + " event: " + event.getEventType());
 	}
 }

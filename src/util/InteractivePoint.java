@@ -6,12 +6,12 @@ import processing.core.PApplet;
 import processing.core.PFont;
 
 /**
- * Represent a pickeable point.
+ * Represent an interactive point.
  * @author Juan Camilo Ibarra
  * @version 0.5b
  *
  */
-public class VAPoint extends PickeableObject{
+public class InteractivePoint extends AbstractInteractiveObject{
 
 	public static final int DEFAULT_TEXT_SIZE = 14;
 	protected int posX;
@@ -33,7 +33,7 @@ public class VAPoint extends PickeableObject{
 	 * @param posY position Y in pixels of the point
 	 * @param mainApplet
 	 */
-	public VAPoint(int posX, int posY,PApplet mainApplet)
+	public InteractivePoint(int posX, int posY,PApplet mainApplet)
 	{
 		super(mainApplet);
 		this.posX = posX;
@@ -186,43 +186,60 @@ public class VAPoint extends PickeableObject{
 		mainApplet.ellipse (posX, posY, pointSize, pointSize);
 		if(renderText)
 		{	
-			float textWidth = mainApplet.textWidth(text);
-			if(withBackground)
-			{
-				mainApplet.fill(colorBackground);
-				mainApplet.rect(posX + 5, posY - 4 - textSize, textWidth, textSize);
-				mainApplet.fill(color);
-			}
-			
-			mainApplet.fill(colorText);
-			if(font != null)
-			{
-				mainApplet.textFont(font, textSize);
-				mainApplet.text(text, posX + 5, posY - 5);
-			}
-			else
-			{
-				mainApplet.textSize(textSize);
-				mainApplet.text(text, posX + 5, posY - 5);
-			}
+			drawText();
+		}	
+	}
+	
+	protected void drawText()
+	{
+		float textWidth = mainApplet.textWidth(text);
+		if(withBackground)
+		{
+			mainApplet.fill(colorBackground);
+			mainApplet.stroke(colorBackground);
+			mainApplet.rect(posX, posY - textSize, textWidth, textSize);
 			mainApplet.fill(color);
 		}
 		
+		mainApplet.fill(colorText);
+		if(font != null)
+		{
+			mainApplet.textFont(font, textSize);
+			mainApplet.text(text, posX, posY);
+		}
+		else
+		{
+			mainApplet.textSize(textSize);
+			mainApplet.text(text, posX, posY);
+		}
+		mainApplet.fill(color);
 	}
 	
-	public Object clone()
+	/**
+	 * Copies the values of a given point to this point
+	 * @param point the point to be copied
+	 */
+	public void setValues(InteractivePoint point)
 	{
-		VAPoint clone = new VAPoint(posX, posY, mainApplet);
-		clone.color = color;
-		clone.colorBackground = colorBackground;
-		clone.colorSelected = colorSelected;
-		clone.colorText = colorText;
-		clone.font = font;
-		clone.renderText = renderText;
-		clone.size = size;
-		clone.text = text;
-		clone.textSize = textSize;
-		clone.withBackground = withBackground;
-		return clone;
+		selected = point.selected;
+		changed = point.changed;
+		mainApplet = point.mainApplet;
+		id = point.id;
+		listeners = point.listeners;
+		firstTime = point.firstTime;
+		userData = point.userData;
+		color = point.color;
+		colorBackground = point.colorBackground;
+		colorSelected = point.colorSelected;
+		colorText = point.colorText;
+		font = point.font;
+		renderText = point.renderText;
+		size = point.size;
+		text = point.text;
+		textSize = point.textSize;
+		withBackground = point.withBackground;
+		posX = point.posX;
+		posY = point.posY;
+
 	}
 }

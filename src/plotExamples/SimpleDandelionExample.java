@@ -1,13 +1,16 @@
-package examples;
+package plotExamples;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.Random;
 import plots.SimpleDandelionPlot;
+import pointExamples.MyPoint;
 import processing.core.PApplet;
-import util.PickeableObjectEvent;
-import util.PickeableObjectListener;
+import util.InteractiveObjectEvent;
+import util.InteractiveObjectListener;
+import util.InteractivePoint;
 
-public class SimpleDandelionExample extends PApplet implements PickeableObjectListener{
+public class SimpleDandelionExample extends PApplet implements InteractiveObjectListener{
 
 	private static final long serialVersionUID = 1L;
 	private SimpleDandelionPlot plot;
@@ -38,7 +41,16 @@ public class SimpleDandelionExample extends PApplet implements PickeableObjectLi
 			plot.addListener(this);
 			plot.renderNodesData(true);
 			
+			ArrayList<InteractivePoint> newPoints = new ArrayList<InteractivePoint>();
+			for(int i = 0; i < numOfValues; i++)
+			{
+				MyPoint newPoint = new MyPoint(0, 0, this);
+				newPoint.setImages("C:/Users/usuario/Downloads/selected.png", "C:/Users/usuario/Downloads/unselected.png");
+				newPoints.add(newPoint);
+			}
+			
 			plot.setData(data);
+			plot.setNewPoints(newPoints);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -56,7 +68,7 @@ public class SimpleDandelionExample extends PApplet implements PickeableObjectLi
 	}
 
 	@Override
-	public void eventTriggered(PickeableObjectEvent event){
+	public void eventTriggered(InteractiveObjectEvent event){
 		System.out.println("message from " + event.getSource().getClass().getName() + " id: " +  event.getSource().getId() + " event: " + event.getEventType());
 	}
 }

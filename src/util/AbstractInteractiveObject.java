@@ -12,29 +12,29 @@ import processing.core.PApplet;
  * @version 0.5b
  *
  */
-public abstract class PickeableObject{
+public abstract class AbstractInteractiveObject{
 	protected boolean selected;
 	protected boolean changed;
 	protected PApplet mainApplet;
 	protected int id;
-	protected ArrayList<PickeableObjectListener> listeners;
+	protected ArrayList<InteractiveObjectListener> listeners;
 	protected boolean firstTime = true;
 	protected Object userData;
 	/**
 	 * Basic constructor
 	 */
-	public PickeableObject()
+	public AbstractInteractiveObject()
 	{
 		selected = false;
 		changed = true;
 		id = 0;
-		listeners = new ArrayList<PickeableObjectListener>();
+		listeners = new ArrayList<InteractiveObjectListener>();
 	}
 	/**
 	 * Constructor
 	 * @param applet the applet where the object is going to be
 	 */
-	public PickeableObject(PApplet applet)
+	public AbstractInteractiveObject(PApplet applet)
 	{
 		this();
 		mainApplet = applet;
@@ -125,7 +125,7 @@ public abstract class PickeableObject{
 		{
 			selected = true;
 			changed = true;
-			notifyListeners(PickeableObjectEvent.SELECTED);
+			notifyListeners(InteractiveObjectEvent.SELECTED);
 		}
 		else
 		{
@@ -137,7 +137,7 @@ public abstract class PickeableObject{
 	 * Get all the listeners of this object
 	 * @return the listeners
 	 */
-	public ArrayList<PickeableObjectListener> getListeners()
+	public ArrayList<InteractiveObjectListener> getListeners()
 	{
 		return listeners;
 	}
@@ -147,9 +147,9 @@ public abstract class PickeableObject{
 	 */
 	public void notifyListeners(int event)
 	{
-		for(PickeableObjectListener listener : listeners)
+		for(InteractiveObjectListener listener : listeners)
 		{
-			listener.eventTriggered(new PickeableObjectEvent(this, event));
+			listener.eventTriggered(new InteractiveObjectEvent(this, event));
 		}
 	}
 
@@ -158,7 +158,7 @@ public abstract class PickeableObject{
 	 * Adds a new listener for this object
 	 * @param listener listener to object
 	 */
-	public void addListener(PickeableObjectListener listener)
+	public void addListener(InteractiveObjectListener listener)
 	{
 		listeners.add(listener);
 	}
@@ -167,7 +167,7 @@ public abstract class PickeableObject{
 	 * Remove the listener for this object
 	 * @param listener the listener to be removed
 	 */
-	public void removeListener(PickeableObjectListener listener)
+	public void removeListener(InteractiveObjectListener listener)
 	{
 		listeners.remove(listener);
 	}
@@ -187,7 +187,7 @@ public abstract class PickeableObject{
 			{
 				selected = false;
 				changed = true;
-				notifyListeners(PickeableObjectEvent.UNSELECTED);
+				notifyListeners(InteractiveObjectEvent.UNSELECTED);
 			}
 			else
 			{
@@ -220,5 +220,6 @@ public abstract class PickeableObject{
 	{
 		
 	}
+	
 
 }

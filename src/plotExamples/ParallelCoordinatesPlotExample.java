@@ -1,12 +1,13 @@
-package examples;
+package plotExamples;
 
+import java.awt.Color;
 import java.util.Random;
 import plots.ParallelCoordinatesPlot;
 import processing.core.PApplet;
-import util.PickeableObjectEvent;
-import util.PickeableObjectListener;
+import util.InteractiveObjectEvent;
+import util.InteractiveObjectListener;
 
-public class ParallelCoordinatesPlotExample extends PApplet implements PickeableObjectListener{
+public class ParallelCoordinatesPlotExample extends PApplet implements InteractiveObjectListener{
 
 	private static final long serialVersionUID = 1L;
 	private ParallelCoordinatesPlot parallelCoordinatesPlot;
@@ -39,9 +40,9 @@ public class ParallelCoordinatesPlotExample extends PApplet implements Pickeable
 		}
 		
 		parallelCoordinatesPlot = new ParallelCoordinatesPlot(this, headers, minMax, 50, 50,  600, 400, 50, 50);
-		parallelCoordinatesPlot.setData(data);
 		parallelCoordinatesPlot.renderNodesInfo(true);
 		parallelCoordinatesPlot.addListener(this);
+		parallelCoordinatesPlot.setData(data);
 		parallelCoordinatesPlot.setId(20);
 	}
 
@@ -49,13 +50,13 @@ public class ParallelCoordinatesPlotExample extends PApplet implements Pickeable
 	{
 		if(parallelCoordinatesPlot.mouseIsOverFeedback())
 		{
-			background(1);
+			background(Color.LIGHT_GRAY.getRGB());
 		}
 		parallelCoordinatesPlot.drawObject();
 	}
 
 	@Override
-	public void eventTriggered(PickeableObjectEvent event){
+	public void eventTriggered(InteractiveObjectEvent event){
 		System.out.println("message from " + event.getSource().getClass().getName() + " id: " +  event.getSource().getId() + " event: " + event.getEventType());
 	}
 }

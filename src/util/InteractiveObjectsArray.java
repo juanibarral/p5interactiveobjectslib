@@ -4,32 +4,32 @@ import java.util.ArrayList;
 import processing.core.PApplet;
 
 /**
- * It is an array of pickeable objects. 
+ * It is an array of interactive objects. 
  * It is in charge of drawing the objects
  * @author Juan Camilo Ibarra
  * @version 0.5b
  *
  */
-public class PickeableObjectArray {
+public class InteractiveObjectsArray {
 
-	private ArrayList<PickeableObject> objects;
+	private ArrayList<AbstractInteractiveObject> objects;
 	private PApplet mainApplet;
 	
 	/**
 	 * Basic constructor
 	 * @param applet the applet that will use the array
 	 */
-	public PickeableObjectArray(PApplet applet)
+	public InteractiveObjectsArray(PApplet applet)
 	{
 		this.mainApplet = applet;
-		this.objects = new ArrayList<PickeableObject>();
+		this.objects = new ArrayList<AbstractInteractiveObject>();
 	}
 	
 	/**
 	 * Adds an object to the array
 	 * @param object the object to add
 	 */
-	public void add(PickeableObject object)
+	public void add(AbstractInteractiveObject object)
 	{
 		objects.add(object);
 	}
@@ -37,7 +37,7 @@ public class PickeableObjectArray {
 	 * Removes an object from the array
 	 * @param object the object to remove
 	 */
-	public void remove(PickeableObject object)
+	public void remove(AbstractInteractiveObject object)
 	{
 		objects.remove(object);
 	}
@@ -59,7 +59,7 @@ public class PickeableObjectArray {
 		int objectChangedIndex = -1;
 		for(int i = 0; i < objects.size(); i++)
 		{
-			PickeableObject object = objects.get(i);
+			AbstractInteractiveObject object = objects.get(i);
 			if(object.mouseIsOverFeedback())
 			{
 				mainApplet.background(backgroundColor);
@@ -70,7 +70,7 @@ public class PickeableObjectArray {
 		
 		for(int i = 0; i < objects.size(); i++)
 		{
-			PickeableObject object = objects.get(i);
+			AbstractInteractiveObject object = objects.get(i);
 			if(objectChangedIndex != -1 && i != objectChangedIndex)
 			{
 				object.setChanged();

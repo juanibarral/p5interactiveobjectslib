@@ -1,13 +1,10 @@
 package plots;
 
 import java.awt.Color;
-import java.util.ArrayList;
 
 import processing.core.PApplet;
-
-import util.PickeableObject;
-import util.PickeableObjectListener;
-import util.VAPoint;
+import util.AbstractPointPlot;
+import util.InteractivePoint;
 
 /**
  * It is a Class that represents a radial plot that looks like a dandelion
@@ -16,27 +13,15 @@ import util.VAPoint;
  * @author Juan Camilo Ibarra
  * @version 0.5b
  */
-public class SimpleDandelionPlot extends PickeableObject {
-	protected int posY;
-	protected int posX;
-	protected int width;
+public class SimpleDandelionPlot extends AbstractPointPlot {
 	protected int gap; 
 	protected int colorLine;
 	protected int colorSelected;
-	protected int colorBackground;
 	protected double minValue;
 	protected double maxValue;
 	protected int maxLineLength;
 	protected int centerX;
 	protected int centerY;
-	protected boolean withBackground;
-	protected ArrayList<VAPoint> points;
-	protected PApplet mainApplet;
-	protected boolean listenerAdded;
-	protected boolean renderNodesData;
-	protected PickeableObjectListener listener;
-	protected String[] nodesText;
-	protected int[] nodesColor;
 	protected int centerOffset;
 
 	/**
@@ -44,20 +29,16 @@ public class SimpleDandelionPlot extends PickeableObject {
 	 */
 	public SimpleDandelionPlot()
 	{
+		super();
 		width = 100;
 		gap = 10; 
 		colorLine = Color.WHITE.getRGB();
 		colorSelected = Color.YELLOW.getRGB();
-		colorBackground = Color.DARK_GRAY.getRGB();
 		minValue = 0;
 		maxValue = 1.0;
 		maxLineLength = 40;
 		centerX = 50;
 		centerY = 50;
-		withBackground = true;
-		points = new ArrayList<VAPoint>();
-		listenerAdded = false;
-		renderNodesData = false;
 		centerOffset = 0;
 	}
 
@@ -122,16 +103,16 @@ public class SimpleDandelionPlot extends PickeableObject {
 			int posX = (int) (radius * Math.cos(Math.toRadians(radiusGap  * i)));
 			int posY = (int) (radius * Math.sin(Math.toRadians(radiusGap  * i)));
 
-			VAPoint point = new VAPoint(centerX + posX, centerY - posY, mainApplet);
+			InteractivePoint point = new InteractivePoint(centerX + posX, centerY - posY, mainApplet);
 			point.setId(i);
 			point.setUserData(data[i]);
 			if(nodesText!= null)
 			{
-				point.setText(nodesText[i], null, VAPoint.DEFAULT_TEXT_SIZE);
+				point.setText(nodesText[i], null, InteractivePoint.DEFAULT_TEXT_SIZE);
 			}
 			else
 			{
-				point.setText(data[i] + "", null, VAPoint.DEFAULT_TEXT_SIZE);
+				point.setText(data[i] + "", null, InteractivePoint.DEFAULT_TEXT_SIZE);
 			}
 			if(nodesColor != null)
 			{
@@ -176,16 +157,16 @@ public class SimpleDandelionPlot extends PickeableObject {
 				int posX = (int) (radius * Math.cos(Math.toRadians(radiusGap  * i)));
 				int posY = (int) (radius * Math.sin(Math.toRadians(radiusGap  * i)));
 
-				VAPoint point = new VAPoint(centerX + posX, centerY - posY, mainApplet);
+				InteractivePoint point = new InteractivePoint(centerX + posX, centerY - posY, mainApplet);
 				point.setId(i);
 				point.setUserData(data[i]);
 				if(nodesText!= null)
 				{
-					point.setText(nodesText[i], null, VAPoint.DEFAULT_TEXT_SIZE);
+					point.setText(nodesText[i], null, InteractivePoint.DEFAULT_TEXT_SIZE);
 				}
 				else
 				{
-					point.setText(data[i] + "", null, VAPoint.DEFAULT_TEXT_SIZE);
+					point.setText(data[i] + "", null, InteractivePoint.DEFAULT_TEXT_SIZE);
 				}
 				if(nodesColor != null)
 				{
@@ -208,40 +189,6 @@ public class SimpleDandelionPlot extends PickeableObject {
 		}
 	}
 
-	/**
-	 * Sets the color for the unselected nodes
-	 * @param colors list of colors in RGB
-	 */
-	public void setNodeColors(int[] colors)
-	{
-		nodesColor = colors;
-	}
-
-	public void setNodesText(String[] text)
-	{
-		nodesText = text;
-	}
-
-	public boolean mouseIsOver()
-	{
-		boolean noneSelected = true;
-		boolean mouseIsOver = false;
-		for(VAPoint p : points)
-		{
-			if(p.mouseIsOver())
-			{
-				mouseIsOver = true;
-				noneSelected = false;
-				break;
-			}
-		}
-		if(noneSelected)
-		{
-			mouseIsOver = false;
-		}
-		return mouseIsOver;
-	}
-
 
 	public void drawObject()
 	{
@@ -254,7 +201,7 @@ public class SimpleDandelionPlot extends PickeableObject {
 				mainApplet.strokeWeight(1);
 				mainApplet.rect((float)posX, (float)posY, (float)width, (float)width);
 			}
-			for(VAPoint p : points)
+			for(InteractivePoint p : points)
 			{
 				mainApplet.strokeWeight(1);
 				mainApplet.stroke(colorLine);
@@ -268,28 +215,12 @@ public class SimpleDandelionPlot extends PickeableObject {
 				mainApplet.line(centerX + initX, centerY + initY, p.getPosX(), p.getPosY());
 
 			}
-			for(VAPoint p : points)
+			for(InteractivePoint p : points)
 			{
 				p.mouseIsOverFeedback();
 				p.setChanged();
 				p.drawObject();
 			}
 		}
-	}
-
-	public void addListener(PickeableObjectListener listener)
-	{
-		listenerAdded = true;
-		this.listener = listener;
-	}
-
-	/**
-	 * If render the data of each node
-	 * @param b if the data will be rendered
-	 */
-	public void renderNodesData(boolean b)
-	{
-		this.renderNodesData= b;
-
 	}
 }

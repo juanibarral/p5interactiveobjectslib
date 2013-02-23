@@ -5,8 +5,8 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 import processing.core.PApplet;
-import util.PickeableObject;
-import util.PickeableObjectListener;
+import util.AbstractInteractiveObject;
+import util.InteractiveObjectListener;
 
 /**
  * It is a class that represents a parallel coordinates plot.
@@ -16,7 +16,7 @@ import util.PickeableObjectListener;
  * @author Juan Camilo Ibarra
  * @version 0.5b
  */
-public class ParallelCoordinatesPlot extends PickeableObject{
+public class ParallelCoordinatesPlot extends AbstractInteractiveObject{
 
 	private String[] headers;
 	private double[][] minMax;
@@ -33,18 +33,16 @@ public class ParallelCoordinatesPlot extends PickeableObject{
 	private int colorSelected;
 	private int colorText;
 	private int colorBackground;
-
 	private int lineLength;
-
 	private int[] axisXPositions;
-
 	private int axisYUpperPosition;
 	private int axisYLowerPosition;
 	private int axisTextSize = 14;
-
 	private boolean withBackground;
-	
 	private boolean autoSelection;
+	private boolean listenerAdded;
+	private boolean renderNodesInfo;
+	private InteractiveObjectListener listener;
 
 	/**
 	 * Basic constructor
@@ -93,7 +91,7 @@ public class ParallelCoordinatesPlot extends PickeableObject{
 		}
 		axisXPositions[headers.length - 1] = posX + (width - horizontalGap);
 	}
-	
+
 	/**
 	 * Sets a whole new dataset to plot
 	 * @param headers titles for each dimension
@@ -118,7 +116,7 @@ public class ParallelCoordinatesPlot extends PickeableObject{
 			axisXPositions[i - 1] = posX + horizontalGap + ((i-1)*axisGap);
 		}
 		axisXPositions[headers.length - 1] = posX + (width - horizontalGap);
-		
+
 		setData(data);
 	}
 
@@ -154,18 +152,23 @@ public class ParallelCoordinatesPlot extends PickeableObject{
 			line.setUnselectedColor(colorLine);
 			line.setSelectedColor(colorSelected);
 			line.setId(i);
+			if(listenerAdded)
+			{
+				line.addListener(listener);
+			}
+
+			line.renderPointsData(renderNodesInfo);
+
 			lines.add(line);
 		}
 	}
 
-	public void addListener(PickeableObjectListener listener)
+	public void addListener(InteractiveObjectListener listener)
 	{
-		for(ParallelCoordinatesPlotLine line : lines)
-		{
-			line.addListener(listener);
-		}
+		listenerAdded = true;
+		this.listener = listener;
 	}
-	
+
 	/**
 	 * Sets the color of the lines
 	 * @param lineColor RGB color value
@@ -225,11 +228,11 @@ public class ParallelCoordinatesPlot extends PickeableObject{
 			line_i.setUnselected();
 			line_i.setChanged();
 		}
-		
+
 		drawAxis();
 		drawLines();
 	}
-	
+
 	/**
 	 * Selects the given lines 
 	 * @param lineNumbers indices of the lines to be selected
@@ -240,13 +243,12 @@ public class ParallelCoordinatesPlot extends PickeableObject{
 		for(int i : lineNumbers)
 		{
 			lines.get(i).setSelected();
-			lines.get(i).setChanged();
+//			lines.get(i).setChanged();
 		}
-		
 		drawAxis();
 		drawLines();
 	}
-	
+
 	private void drawLines()
 	{
 		for(ParallelCoordinatesPlotLine line : lines)
@@ -260,7 +262,7 @@ public class ParallelCoordinatesPlot extends PickeableObject{
 		}
 		autoSelection = false;
 	}
-	
+
 	private void drawAxis()
 	{
 		if(withBackground)
@@ -282,7 +284,7 @@ public class ParallelCoordinatesPlot extends PickeableObject{
 			mainApplet.text(header, axisXPositions[i] - (int)(textWidth/2),  axisYLowerPosition + 15, axisTextSize);
 		}
 	}
-	
+
 	public void drawObject()
 	{
 		if(changed)
@@ -295,16 +297,13 @@ public class ParallelCoordinatesPlot extends PickeableObject{
 			changed = false;
 		}
 	}
-	
+
 	/**
 	 * Sets if the plot will render the values of the points
 	 * @param b if the nodes will render their info
 	 */
 	public void renderNodesInfo(boolean b)
 	{
-		for(ParallelCoordinatesPlotLine line : lines)
-		{
-			line.renderPointsData(b);
-		}
+		renderNodesInfo = b;
 	}
 }

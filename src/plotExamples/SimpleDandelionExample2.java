@@ -1,13 +1,13 @@
-package examples;
+package plotExamples;
 
 import java.awt.Color;
 import java.util.Random;
 import plots.SimpleDandelionPlot;
 import processing.core.PApplet;
-import util.PickeableObjectEvent;
-import util.PickeableObjectListener;
+import util.InteractiveObjectEvent;
+import util.InteractiveObjectListener;
 
-public class SimpleDandelionExample2 extends PApplet implements PickeableObjectListener{
+public class SimpleDandelionExample2 extends PApplet implements InteractiveObjectListener{
 
 	private static final long serialVersionUID = 1L;
 	private SimpleDandelionPlot plot;
@@ -62,7 +62,7 @@ public class SimpleDandelionExample2 extends PApplet implements PickeableObjectL
 	}
 
 	@Override
-	public void eventTriggered(PickeableObjectEvent event){
+	public void eventTriggered(InteractiveObjectEvent event){
 		System.out.println("message from " + event.getSource().getClass().getName() + " id: " +  event.getSource().getId() + " event: " + event.getEventType());
 	}
 }

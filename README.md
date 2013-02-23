@@ -1,4 +1,4 @@
-p5visualanalyticslibrary
-========================
+p5 Interactive Objects Library
+==============================
 
-Simple library over processing for visual analytics
+Simple library over processing for interactive objects

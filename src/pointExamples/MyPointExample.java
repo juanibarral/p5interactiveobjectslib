@@ -1,27 +1,22 @@
-package examples;
+package pointExamples;
 
 import java.awt.Color;
 
 import processing.core.PApplet;
-import util.PickeableObjectEvent;
-import util.PickeableObjectListener;
-import util.VAPoint;
+import util.InteractiveObjectEvent;
+import util.InteractiveObjectListener;
 
-public class MyPointExample extends PApplet implements PickeableObjectListener{
+public class MyPointExample extends PApplet implements InteractiveObjectListener{
 
 	private static final long serialVersionUID = 1L;
 	private MyPoint point;
 	
 	public void setup()
 	{
-		double data = 3.2564;
 		point = new MyPoint(250, 250, this);
-		point.setUserData(data);
-		point.setText("Data: " + data, null, VAPoint.DEFAULT_TEXT_SIZE);
-		point.renderText(true);
 		point.addListener(this);
-		point.setBackgroundColor(Color.RED.getRGB());
-		point.renderBackground(true);
+		point.setImages("selected.png", "unselected.png");
+		point.setImageSize(200, 200);
 		size(500, 500);
 	}
 	
@@ -35,7 +30,7 @@ public class MyPointExample extends PApplet implements PickeableObjectListener{
 	}
 
 	@Override
-	public void eventTriggered(PickeableObjectEvent event){
+	public void eventTriggered(InteractiveObjectEvent event){
 		System.out.println("message from " + event.getSource().getClass().getName() + " id: " +  event.getSource().getId() + " event: " + event.getEventType());
 	}
 }
