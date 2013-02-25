@@ -60,7 +60,10 @@ public class InteractiveObjectsArray {
 		for(int i = 0; i < objects.size(); i++)
 		{
 			AbstractInteractiveObject object = objects.get(i);
-			if(object.mouseIsOverFeedback())
+			boolean ch = object.hasChanged();
+			boolean isOver = object.mouseIsOverFeedback();
+			
+			if(ch || isOver)
 			{
 				mainApplet.background(backgroundColor);
 				objectChangedIndex = i;

@@ -161,6 +161,7 @@ public class ParallelCoordinatesPlot extends AbstractInteractiveObject{
 
 			lines.add(line);
 		}
+		setChanged();
 	}
 
 	public void addListener(InteractiveObjectListener listener)
@@ -289,6 +290,7 @@ public class ParallelCoordinatesPlot extends AbstractInteractiveObject{
 	{
 		if(changed)
 		{
+			System.out.println("drawing parallel plot");
 			drawAxis();
 			if(!lines.isEmpty())
 			{
@@ -305,5 +307,12 @@ public class ParallelCoordinatesPlot extends AbstractInteractiveObject{
 	public void renderNodesInfo(boolean b)
 	{
 		renderNodesInfo = b;
+	}	
+	
+	public boolean mouseIsOverFeedback()
+	{
+		
+		return super.mouseIsOverFeedback();
 	}
+	
 }

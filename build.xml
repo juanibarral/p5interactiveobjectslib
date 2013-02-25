@@ -8,7 +8,8 @@
 	<property name="version"     value="0.5b"/>
 	
 	<!-- Put the processing core.jar path-->
-	<property name="processing.dir" value=" Path to core.jar "/>
+	<!--<property name="processing.dir" value=" Path to core.jar "/>-->
+	<property name="processing.dir" value="C:/Users/usuario/Documents/Juanibarral/Software/processing-2.0b7-windows64/processing-2.0b7/core/library"/>
 	
 	<target name="clean" description="Deletes all contents from build folder">
 		<delete dir = "${build.dir}"/>

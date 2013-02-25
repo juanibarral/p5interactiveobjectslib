@@ -67,7 +67,7 @@ public class DynamicParallelCoordinatesPlotExample extends PApplet implements In
 		
 		
 		array.add(parallelCoordinatesPlot);
-		array.add(point1);
+//		array.add(point1);
 		array.add(point2);
 		
 		size(sizeX,sizeY);
@@ -76,6 +76,15 @@ public class DynamicParallelCoordinatesPlotExample extends PApplet implements In
 	public void draw() 
 	{
 		array.draw(Color.WHITE.getRGB());
+		
+		float disX = point1.getPosX() - mouseX;
+		float disY = point1.getPosY() - mouseY;
+		
+		if((int)(PApplet.sqrt(PApplet.sq(disX) + PApplet.sq(disY))) < point1.getSize()) 
+		{
+			setDataForPlot();
+			System.out.println("entra");
+		}
 	}
 	
 	public void setDataForPlot()

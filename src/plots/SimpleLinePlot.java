@@ -46,6 +46,8 @@ public class SimpleLinePlot extends AbstractPointPlot{
 	
 	public void setData(double[] data) throws Exception
 	{
+		setChanged();
+		points.clear();
 		for(int i = 0; i < data.length; i++)
 		{
 			double d = data[i];
@@ -101,24 +103,38 @@ public class SimpleLinePlot extends AbstractPointPlot{
 	{
 		if(changed)
 		{
-			if(withBackground)
-			{
-				mainApplet.fill(colorBackground);
-				mainApplet.stroke(colorBackground);
-				mainApplet.strokeWeight(1);
-				mainApplet.rect((float)posX, (float)posY, (float)width, (float)height);
-			}
-			
+			drawBackground();
+			drawLine();
+			drawPoints();
+			changed = false;
+		}
+	}
+	
+	protected void drawBackground()
+	{
+		if(withBackground)
+		{
+			mainApplet.fill(colorBackground);
+			mainApplet.stroke(colorBackground);
 			mainApplet.strokeWeight(1);
-			mainApplet.stroke(colorLine);
-			mainApplet.line(posX + gap, linePosY, posX + maxLineLength, linePosY);
-
-			for(InteractivePoint p : points)
-			{
-				p.mouseIsOverFeedback();
-				p.setChanged();
-				p.drawObject();
-			}
+			mainApplet.rect((float)posX, (float)posY, (float)width, (float)height);
+		}
+	}
+	
+	protected void drawLine()
+	{
+		mainApplet.strokeWeight(1);
+		mainApplet.stroke(colorLine);
+		mainApplet.line(posX + gap, linePosY, posX + maxLineLength, linePosY);
+	}
+	
+	protected void drawPoints()
+	{
+		for(InteractivePoint p : points)
+		{
+			p.mouseIsOverFeedback();
+			p.setChanged();
+			p.drawObject();
 		}
 	}
 }

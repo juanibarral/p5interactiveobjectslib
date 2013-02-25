@@ -20,6 +20,7 @@ public abstract class AbstractInteractiveObject{
 	protected ArrayList<InteractiveObjectListener> listeners;
 	protected boolean firstTime = true;
 	protected Object userData;
+	protected boolean overrideChanged;
 	/**
 	 * Basic constructor
 	 */
@@ -113,6 +114,7 @@ public abstract class AbstractInteractiveObject{
 	 */
 	public void setChanged()
 	{
+		overrideChanged = true;
 		changed = true;
 	}
 	
@@ -127,7 +129,7 @@ public abstract class AbstractInteractiveObject{
 			changed = true;
 			notifyListeners(InteractiveObjectEvent.SELECTED);
 		}
-		else
+		else if(!overrideChanged)
 		{
 			changed = false;
 		}
@@ -189,7 +191,7 @@ public abstract class AbstractInteractiveObject{
 				changed = true;
 				notifyListeners(InteractiveObjectEvent.UNSELECTED);
 			}
-			else
+			else if (!overrideChanged)
 			{
 				changed = false;
 			}
@@ -206,7 +208,7 @@ public abstract class AbstractInteractiveObject{
 	}
 	/**
 	 * 
-	 * @return if the state of the point has changed
+	 * @return if the state of the object has changed
 	 */
 	public boolean hasChanged()
 	{

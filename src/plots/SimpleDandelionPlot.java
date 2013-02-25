@@ -89,6 +89,7 @@ public class SimpleDandelionPlot extends AbstractPointPlot {
 	 */
 	public void setData(double[] data) throws Exception
 	{
+		
 		points.clear();
 		float radiusGap = 360.0f / (float)(data.length);
 		for(int i = 0; i < data.length; i++)
@@ -132,6 +133,7 @@ public class SimpleDandelionPlot extends AbstractPointPlot {
 			point.renderText(renderNodesData);
 			points.add(point);
 		}
+		setChanged();
 	}
 
 	/**
@@ -187,6 +189,7 @@ public class SimpleDandelionPlot extends AbstractPointPlot {
 				points.add(point);
 			}
 		}
+		setChanged();
 	}
 
 
@@ -194,33 +197,48 @@ public class SimpleDandelionPlot extends AbstractPointPlot {
 	{
 		if(changed)
 		{
-			if(withBackground)
-			{
-				mainApplet.fill(colorBackground);
-				mainApplet.stroke(colorBackground);
-				mainApplet.strokeWeight(1);
-				mainApplet.rect((float)posX, (float)posY, (float)width, (float)width);
-			}
-			for(InteractivePoint p : points)
-			{
-				mainApplet.strokeWeight(1);
-				mainApplet.stroke(colorLine);
-
-				int posX = p.getPosX() - centerX;
-				int posY = p.getPosY() - centerY;
-				int distance = (int) Math.sqrt(( posX * posX) + (posY * posY));
-				int initX = (int)((float)posX / (float)distance * centerOffset);
-				int initY = (int)((float)posY / (float)distance * centerOffset);
-
-				mainApplet.line(centerX + initX, centerY + initY, p.getPosX(), p.getPosY());
-
-			}
-			for(InteractivePoint p : points)
-			{
-				p.mouseIsOverFeedback();
-				p.setChanged();
-				p.drawObject();
-			}
+			drawBackground();
+			drawLines();
+			drawPoints();
+			changed = false;
 		}
 	}
+	
+	protected void drawBackground()
+	{
+		if(withBackground)
+		{
+			mainApplet.fill(colorBackground);
+			mainApplet.stroke(colorBackground);
+			mainApplet.strokeWeight(1);
+			mainApplet.rect((float)posX, (float)posY, (float)width, (float)width);
+		}
+	}
+	protected void drawLines()
+	{
+		for(InteractivePoint p : points)
+		{
+			mainApplet.strokeWeight(1);
+			mainApplet.stroke(colorLine);
+
+			int posX = p.getPosX() - centerX;
+			int posY = p.getPosY() - centerY;
+			int distance = (int) Math.sqrt(( posX * posX) + (posY * posY));
+			int initX = (int)((float)posX / (float)distance * centerOffset);
+			int initY = (int)((float)posY / (float)distance * centerOffset);
+
+			mainApplet.line(centerX + initX, centerY + initY, p.getPosX(), p.getPosY());
+
+		}
+	}
+	protected void drawPoints()
+	{
+		for(InteractivePoint p : points)
+		{
+			p.mouseIsOverFeedback();
+			p.setChanged();
+			p.drawObject();
+		}
+	}
+	
 }

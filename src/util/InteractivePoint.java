@@ -95,6 +95,15 @@ public class InteractivePoint extends AbstractInteractiveObject{
 			return false;
 		}
 	}
+	
+	/**
+	 * 
+	 * @return the point size
+	 */
+	public int getSize()
+	{
+		return size;
+	}
 
 	/**
 	 * Returns the X position of the point

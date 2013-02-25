@@ -49,6 +49,7 @@ public abstract class AbstractPointPlot extends AbstractInteractiveObject{
 
 	}
 	
+	
 	/**
 	 * Set the new points for this plot
 	 * @param newPoints the new points
