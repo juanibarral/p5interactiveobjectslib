@@ -2,6 +2,8 @@ package plots;
 
 import java.awt.Color;
 
+import javax.sound.sampled.DataLine;
+
 import basic.InteractivePoint;
 
 import processing.core.PApplet;
@@ -24,6 +26,7 @@ public class SimpleDandelionPlot extends AbstractPointPlot {
 	protected int centerX;
 	protected int centerY;
 	protected int centerOffset;
+	protected int[][] lines;
 
 	/**
 	 * Simple Constructor
@@ -41,6 +44,7 @@ public class SimpleDandelionPlot extends AbstractPointPlot {
 		centerX = 50;
 		centerY = 50;
 		centerOffset = 0;
+
 	}
 
 	/**
@@ -90,7 +94,7 @@ public class SimpleDandelionPlot extends AbstractPointPlot {
 	 */
 	public void setData(double[] data) throws Exception
 	{
-		
+		lines = new int[data.length][2];
 		points.clear();
 		float radiusGap = 360.0f / (float)(data.length);
 		for(int i = 0; i < data.length; i++)
@@ -105,6 +109,8 @@ public class SimpleDandelionPlot extends AbstractPointPlot {
 			int posX = (int) (radius * Math.cos(Math.toRadians(radiusGap  * i)));
 			int posY = (int) (radius * Math.sin(Math.toRadians(radiusGap  * i)));
 
+			lines[i][0] = centerX + posX;
+			lines[i][1] = centerY - posY;
 			InteractivePoint point = new InteractivePoint(centerX + posX, centerY - posY, mainApplet);
 			point.setId(i);
 			point.setUserData(data[i]);
@@ -133,6 +139,7 @@ public class SimpleDandelionPlot extends AbstractPointPlot {
 			}
 			point.renderText(renderNodesData);
 			points.add(point);
+			
 		}
 		setChanged();
 	}
@@ -144,10 +151,12 @@ public class SimpleDandelionPlot extends AbstractPointPlot {
 	 */
 	public void setData(double[][] data) throws Exception
 	{
+		lines = new int[data.length][2];
 		points.clear();
 		float radiusGap = 360.0f / (float)(data.length);
 		for(int i = 0; i < data.length; i++)
 		{
+			double maxData = 0;
 			for(int j = 0; j < data[i].length; j++)
 			{
 				double d = data[i][j];
@@ -155,6 +164,12 @@ public class SimpleDandelionPlot extends AbstractPointPlot {
 				{
 					throw new Exception ("Data out of range " + d + ", [" + minValue + "," + maxValue + "]");
 				}
+				
+				if(maxData < d)
+				{
+					maxData = d;
+				}
+				
 				float radius = PApplet.map((float)d, (float)minValue, (float)maxValue, centerOffset, (float)maxLineLength);
 
 				int posX = (int) (radius * Math.cos(Math.toRadians(radiusGap  * i)));
@@ -189,6 +204,11 @@ public class SimpleDandelionPlot extends AbstractPointPlot {
 				point.renderText(renderNodesData);
 				points.add(point);
 			}
+			
+			float radius = PApplet.map((float)maxData, (float)minValue, (float)maxValue, centerOffset, (float)maxLineLength);
+
+			lines[i][0] = centerX + (int) (radius * Math.cos(Math.toRadians(radiusGap  * i)));
+			lines[i][1] = centerY - (int) (radius * Math.sin(Math.toRadians(radiusGap  * i)));
 		}
 		setChanged();
 	}
@@ -217,18 +237,32 @@ public class SimpleDandelionPlot extends AbstractPointPlot {
 	}
 	protected void drawLines()
 	{
-		for(InteractivePoint p : points)
+//		for(InteractivePoint p : points)
+//		{
+//			mainApplet.strokeWeight(1);
+//			mainApplet.stroke(colorLine);
+//
+//			int posX = p.getPosX() - centerX;
+//			int posY = p.getPosY() - centerY;
+//			int distance = (int) Math.sqrt(( posX * posX) + (posY * posY));
+//			int initX = (int)((float)posX / (float)distance * centerOffset);
+//			int initY = (int)((float)posY / (float)distance * centerOffset);
+//
+//			mainApplet.line(centerX + initX, centerY + initY, p.getPosX(), p.getPosY());
+//
+//		}
+		for(int i = 0; i < lines.length; i++)
 		{
 			mainApplet.strokeWeight(1);
 			mainApplet.stroke(colorLine);
 
-			int posX = p.getPosX() - centerX;
-			int posY = p.getPosY() - centerY;
-			int distance = (int) Math.sqrt(( posX * posX) + (posY * posY));
-			int initX = (int)((float)posX / (float)distance * centerOffset);
-			int initY = (int)((float)posY / (float)distance * centerOffset);
+			int endX = lines[i][0] - centerX;
+			int endY = lines[i][1] - centerY;
+			int distance = (int) Math.sqrt(( endX * endX) + (endY * endY));
+			int initX = (int)((float)endX / (float)distance * centerOffset);
+			int initY = (int)((float)endY / (float)distance * centerOffset);
 
-			mainApplet.line(centerX + initX, centerY + initY, p.getPosX(), p.getPosY());
+			mainApplet.line(centerX + initX, centerY + initY, endX + centerX, endY + centerY);
 
 		}
 	}
