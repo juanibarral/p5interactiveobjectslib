@@ -2,12 +2,13 @@ package plotExamples;
 
 import java.awt.Color;
 import java.util.Random;
+
+import basic.InteractivePoint;
 import plots.ParallelCoordinatesPlot;
 import processing.core.PApplet;
 import util.InteractiveObjectsArray;
 import util.InteractiveObjectEvent;
 import util.InteractiveObjectListener;
-import util.InteractivePoint;
 
 
 public class DynamicParallelCoordinatesPlotExample extends PApplet implements InteractiveObjectListener{

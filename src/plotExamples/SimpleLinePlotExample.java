@@ -4,12 +4,13 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Random;
 
+import basic.InteractivePoint;
+
 import plots.SimpleLinePlot;
 import pointExamples.MyPoint;
 import processing.core.PApplet;
 import util.InteractiveObjectEvent;
 import util.InteractiveObjectListener;
-import util.InteractivePoint;
 
 public class SimpleLinePlotExample extends PApplet implements InteractiveObjectListener{
 

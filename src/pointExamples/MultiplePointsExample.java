@@ -1,11 +1,12 @@
 package pointExamples;
 
 import java.awt.Color;
+
+import basic.InteractivePoint;
 import processing.core.PApplet;
 import util.InteractiveObjectsArray;
 import util.InteractiveObjectEvent;
 import util.InteractiveObjectListener;
-import util.InteractivePoint;
 
 public class MultiplePointsExample extends PApplet implements InteractiveObjectListener{
 

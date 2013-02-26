@@ -2,9 +2,10 @@ package plots;
 
 import java.awt.Color;
 
+import basic.InteractivePoint;
+
 import processing.core.PApplet;
 import util.AbstractInteractiveObject;
-import util.InteractivePoint;
 
 /**
  * It is a class that represents a line in the plot.

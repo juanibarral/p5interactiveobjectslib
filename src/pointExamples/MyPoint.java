@@ -1,8 +1,8 @@
 package pointExamples;
 
+import basic.InteractivePoint;
 import processing.core.PApplet;
 import processing.core.PImage;
-import util.InteractivePoint;
 
 public class MyPoint extends InteractivePoint {
 

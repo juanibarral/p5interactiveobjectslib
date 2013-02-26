@@ -2,9 +2,10 @@ package plots;
 
 import java.awt.Color;
 
+import basic.InteractivePoint;
+
 import processing.core.PApplet;
 import util.AbstractPointPlot;
-import util.InteractivePoint;
 
 /**
  * It is a Class that represents a radial plot that looks like a dandelion

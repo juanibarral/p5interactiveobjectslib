@@ -1,9 +1,10 @@
-package util;
+package basic;
 
 import java.awt.Color;
 
 import processing.core.PApplet;
 import processing.core.PFont;
+import util.AbstractInteractiveObject;
 
 /**
  * Represent an interactive point.

@@ -3,6 +3,8 @@ package util;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import basic.InteractivePoint;
+
 /**
  * It is a Class that represent a plot that has a set of interactive points that could be selected
  * @author Juan Camilo Ibarra

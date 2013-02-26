@@ -3,12 +3,13 @@ package plotExamples;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Random;
+
+import basic.InteractivePoint;
 import plots.SimpleDandelionPlot;
 import pointExamples.MyPoint;
 import processing.core.PApplet;
 import util.InteractiveObjectEvent;
 import util.InteractiveObjectListener;
-import util.InteractivePoint;
 
 public class SimpleDandelionExample extends PApplet implements InteractiveObjectListener{
 

@@ -2,9 +2,10 @@ package plots;
 
 import java.awt.Color;
 
+import basic.InteractivePoint;
+
 import processing.core.PApplet;
 import util.AbstractPointPlot;
-import util.InteractivePoint;
 
 public class SimpleLinePlot extends AbstractPointPlot{
 
