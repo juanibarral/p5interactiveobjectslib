@@ -350,18 +350,21 @@ public class ParallelCoordinatesPlot extends AbstractInteractiveObject{
 			mainApplet.strokeWeight(1);
 			mainApplet.rect((float)posX, (float)posY, (float)width, (float)height);
 		}
-		for(int i = 0; i < axisXPositions.length; i++)
+		if(axisXPositions != null)
 		{
-			mainApplet.stroke(axisColor);
-			mainApplet.strokeWeight(1);
-			mainApplet.line(axisXPositions[i], axisYUpperPosition, axisXPositions[i], axisYLowerPosition);
-
-			if(withHeaders)
+			for(int i = 0; i < axisXPositions.length; i++)
 			{
-				String header = headers[i] + "\n" + minMax[i][0] + " to " + minMax[i][1];
-				float textWidth = mainApplet.textWidth(header);
-				mainApplet.fill(colorText);
-				mainApplet.text(header, axisXPositions[i] - (int)(textWidth/2),  axisYLowerPosition + 15, axisTextSize);
+				mainApplet.stroke(axisColor);
+				mainApplet.strokeWeight(1);
+				mainApplet.line(axisXPositions[i], axisYUpperPosition, axisXPositions[i], axisYLowerPosition);
+
+				if(withHeaders)
+				{
+					String header = headers[i] + "\n" + minMax[i][0] + " to " + minMax[i][1];
+					float textWidth = mainApplet.textWidth(header);
+					mainApplet.fill(colorText);
+					mainApplet.text(header, axisXPositions[i] - (int)(textWidth/2),  axisYLowerPosition + 15, axisTextSize);
+				}
 			}
 		}
 	}

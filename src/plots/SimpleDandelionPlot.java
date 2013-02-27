@@ -251,19 +251,22 @@ public class SimpleDandelionPlot extends AbstractPointPlot {
 //			mainApplet.line(centerX + initX, centerY + initY, p.getPosX(), p.getPosY());
 //
 //		}
-		for(int i = 0; i < lines.length; i++)
+		if(lines != null)
 		{
-			mainApplet.strokeWeight(1);
-			mainApplet.stroke(colorLine);
+			for(int i = 0; i < lines.length; i++)
+			{
+				mainApplet.strokeWeight(1);
+				mainApplet.stroke(colorLine);
 
-			int endX = lines[i][0] - centerX;
-			int endY = lines[i][1] - centerY;
-			int distance = (int) Math.sqrt(( endX * endX) + (endY * endY));
-			int initX = (int)((float)endX / (float)distance * centerOffset);
-			int initY = (int)((float)endY / (float)distance * centerOffset);
+				int endX = lines[i][0] - centerX;
+				int endY = lines[i][1] - centerY;
+				int distance = (int) Math.sqrt(( endX * endX) + (endY * endY));
+				int initX = (int)((float)endX / (float)distance * centerOffset);
+				int initY = (int)((float)endY / (float)distance * centerOffset);
 
-			mainApplet.line(centerX + initX, centerY + initY, endX + centerX, endY + centerY);
+				mainApplet.line(centerX + initX, centerY + initY, endX + centerX, endY + centerY);
 
+			}
 		}
 	}
 	protected void drawPoints()

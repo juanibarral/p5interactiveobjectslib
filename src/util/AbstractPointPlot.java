@@ -93,6 +93,11 @@ public abstract class AbstractPointPlot extends AbstractInteractiveObject{
 		nodesText = text;
 	}
 	
+	public void withBackground(boolean b)
+	{
+		withBackground = b;
+	}
+	
 	public boolean mouseIsOver()
 	{
 		boolean noneSelected = true;
@@ -112,4 +117,34 @@ public abstract class AbstractPointPlot extends AbstractInteractiveObject{
 		}
 		return mouseIsOver;
 	}
+
+	/**
+	 * @return the posY
+	 */
+	public int getPosY() {
+		return posY;
+	}
+
+	/**
+	 * @return the posX
+	 */
+	public int getPosX() {
+		return posX;
+	}
+
+	/**
+	 * @return the width
+	 */
+	public int getWidth() {
+		return width;
+	}
+
+	/**
+	 * @return the height
+	 */
+	public int getHeight() {
+		return height;
+	}
+	
+	
 }

@@ -81,4 +81,9 @@ public class InteractiveObjectsArray {
 			object.drawObject();
 		}
 	}
+	
+	public int size()
+	{
+		return objects.size();
+	}
 }
