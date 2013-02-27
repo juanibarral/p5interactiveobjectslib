@@ -20,6 +20,7 @@ public class DynamicParallelCoordinatesPlotExample extends PApplet implements In
 	private InteractiveObjectsArray array;
 	private int sizeX;
 	private int sizeY;
+	private boolean drawn;
 
 	public void setup() 
 	{
@@ -50,8 +51,11 @@ public class DynamicParallelCoordinatesPlotExample extends PApplet implements In
 			}
 		}
 		
-		parallelCoordinatesPlot = new ParallelCoordinatesPlot(this, headers, minMax, 50, 50,  600, 300, 50, 50);
-		parallelCoordinatesPlot.setData(data);	
+		parallelCoordinatesPlot = new ParallelCoordinatesPlot(this, 50, 50,  600, 300);
+		parallelCoordinatesPlot.setHeaders(headers);
+		parallelCoordinatesPlot.setMinMax(minMax);
+		parallelCoordinatesPlot.setData(data);
+//		parallelCoordinatesPlot.setData(headers, minMax, data);	
 		parallelCoordinatesPlot.renderNodesInfo(true);
 		parallelCoordinatesPlot.addListener(this);
 		
@@ -83,21 +87,32 @@ public class DynamicParallelCoordinatesPlotExample extends PApplet implements In
 		
 		if((int)(PApplet.sqrt(PApplet.sq(disX) + PApplet.sq(disY))) < point1.getSize()) 
 		{
-			setDataForPlot();
-			System.out.println("entra");
+			if(!drawn)
+			{
+				setDataForPlot();
+				drawn = true;
+			}
+
+		}
+		else
+		{
+			drawn = false;
 		}
 	}
 	
 	public void setDataForPlot()
 	{
+		
 		int coordinatesSize = (int)random(3,10);
 		int dataSize = (int) random(5,10);
+		
+		System.out.println("set data: " + coordinatesSize + "    " + dataSize);
 		
 		double[][] minMax = new double[coordinatesSize][2];
 		double[][] data = new double[dataSize][coordinatesSize];
 		
 		String[] headers = new String[coordinatesSize];
-		for(int i = 0; i < headers.length; i++)
+		for(int i = 0; i < coordinatesSize; i++)
 		{
 			headers[i] = "Header" + i;
 			minMax[i][0] = 0;
@@ -113,7 +128,7 @@ public class DynamicParallelCoordinatesPlotExample extends PApplet implements In
 				data[i][j] = r.nextDouble();
 			}
 		}
-		parallelCoordinatesPlot.setNewData(headers, minMax, data);
+		parallelCoordinatesPlot.setData(headers, minMax, data);
 	}
 
 	@Override
@@ -123,7 +138,11 @@ public class DynamicParallelCoordinatesPlotExample extends PApplet implements In
 			int pointId = event.getSource().getId();
 			if(pointId == 1)
 			{
-				setDataForPlot();
+				if(!drawn)
+				{
+					setDataForPlot();
+					drawn = true;
+				}
 			}
 			else if (pointId == 2)
 			{

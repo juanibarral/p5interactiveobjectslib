@@ -43,28 +43,79 @@ public class ParallelCoordinatesPlot extends AbstractInteractiveObject{
 	private boolean listenerAdded;
 	private boolean renderNodesInfo;
 	private InteractiveObjectListener listener;
+	private boolean withHeaders;
 
-	/**
-	 * Basic constructor
-	 * @param mainApplet the applet where its going to be drawn
-	 * @param headers titles for each dimension
-	 * @param minMax minimum and maximum values for each dimension
-	 * @param posX position in X of the left upper corner for the plot in pixels
-	 * @param posY position in Y of the left upper corner for the plot in pixels
-	 * @param width width of the plot in pixels
-	 * @param height height of the plot in pixels
-	 * @param horizontalGap horizontal gap in pixels. 
-	 * @param verticalGap vertical gap in pixels
-	 */
-	public ParallelCoordinatesPlot(PApplet mainApplet, String[] headers, double[][] minMax, int posX, int posY, int width, int height, int horizontalGap, int verticalGap)
+	public ParallelCoordinatesPlot()
 	{
+		lines = new ArrayList<ParallelCoordinatesPlotLine>();
+		width = 100;
+		height = 100;
+		horizontalGap = 20; 
+		verticalGap = 20;
+		axisColor = Color.WHITE.getRGB();
+		colorLine = Color.WHITE.getRGB();
+		colorSelected = Color.YELLOW.getRGB();
+		colorText = Color.WHITE.getRGB();
+		colorBackground = Color.DARK_GRAY.getRGB();
+		lineLength = 60;
+		axisTextSize = 14;
+	}
+
+	//	/**
+	//	 * Basic constructor
+	//	 * @param mainApplet the applet where its going to be drawn
+	//	 * @param headers titles for each dimension
+	//	 * @param minMax minimum and maximum values for each dimension
+	//	 * @param posX position in X of the left upper corner for the plot in pixels
+	//	 * @param posY position in Y of the left upper corner for the plot in pixels
+	//	 * @param width width of the plot in pixels
+	//	 * @param height height of the plot in pixels
+	//	 * @param horizontalGap horizontal gap in pixels. 
+	//	 * @param verticalGap vertical gap in pixels
+	//	 */
+	//	public ParallelCoordinatesPlot(PApplet mainApplet, String[] headers, double[][] minMax, int posX, int posY, int width, int height, int horizontalGap, int verticalGap)
+	//	{
+	//		this();
+	//		this.mainApplet = mainApplet;
+	//		this.headers = headers;
+	//		this.minMax = minMax;
+	//		this.width = width;
+	//		this.height =height;
+	//		this.horizontalGap = horizontalGap;
+	//		this.verticalGap = verticalGap;
+	//		this.posX = posX;
+	//		this.posY = posY;
+	//		this.axisColor = Color.WHITE.getRGB();
+	//		this.colorLine = Color.WHITE.getRGB();
+	//		this.colorSelected = Color.YELLOW.getRGB();
+	//		this.colorText = Color.WHITE.getRGB();
+	//		this.colorBackground = Color.DARK_GRAY.getRGB();
+	//		this.withBackground = true;
+	//		this.lines = new ArrayList<ParallelCoordinatesPlotLine>();
+	//		this.axisXPositions = new int[headers.length];
+	//		this.autoSelection = false;
+	//
+	//		lineLength = this.height - (2*verticalGap);
+	//
+	//		axisYUpperPosition = posY + verticalGap;
+	//		axisYLowerPosition = posY + this.height - verticalGap;
+	//
+	//		axisXPositions[0] = posX + horizontalGap;
+	//
+	//		int axisGap = (int)((double)(width - (2*horizontalGap)) / (double)(headers.length - 1));
+	//		for(int i = 2; i < headers.length; i++)
+	//		{
+	//			axisXPositions[i - 1] = posX + horizontalGap + ((i-1)*axisGap);
+	//		}
+	//		axisXPositions[headers.length - 1] = posX + (width - horizontalGap);
+	//	}
+
+	public ParallelCoordinatesPlot(PApplet mainApplet, int posX, int posY, int width, int height)
+	{
+		this();
 		this.mainApplet = mainApplet;
-		this.headers = headers;
-		this.minMax = minMax;
 		this.width = width;
 		this.height =height;
-		this.horizontalGap = horizontalGap;
-		this.verticalGap = verticalGap;
 		this.posX = posX;
 		this.posY = posY;
 		this.axisColor = Color.WHITE.getRGB();
@@ -74,22 +125,8 @@ public class ParallelCoordinatesPlot extends AbstractInteractiveObject{
 		this.colorBackground = Color.DARK_GRAY.getRGB();
 		this.withBackground = true;
 		this.lines = new ArrayList<ParallelCoordinatesPlotLine>();
-		this.axisXPositions = new int[headers.length];
 		this.autoSelection = false;
 
-		lineLength = this.height - (2*verticalGap);
-
-		axisYUpperPosition = posY + verticalGap;
-		axisYLowerPosition = posY + this.height - verticalGap;
-
-		axisXPositions[0] = posX + horizontalGap;
-
-		int axisGap = (int)((double)(width - (2*horizontalGap)) / (double)(headers.length - 1));
-		for(int i = 2; i < headers.length; i++)
-		{
-			axisXPositions[i - 1] = posX + horizontalGap + ((i-1)*axisGap);
-		}
-		axisXPositions[headers.length - 1] = posX + (width - horizontalGap);
 	}
 
 	/**
@@ -98,8 +135,9 @@ public class ParallelCoordinatesPlot extends AbstractInteractiveObject{
 	 * @param minMax minimum and maximum values for each dimension
 	 * @param data data matrix
 	 */
-	public void setNewData(String[] headers, double[][] minMax, double[][] data)
+	public void setData(String[] headers, double[][] minMax, double[][] data)
 	{
+		this.headers = headers;
 		this.minMax = minMax;
 		this.axisXPositions = new int[headers.length];
 
@@ -117,6 +155,7 @@ public class ParallelCoordinatesPlot extends AbstractInteractiveObject{
 		}
 		axisXPositions[headers.length - 1] = posX + (width - horizontalGap);
 
+		withHeaders = true;
 		setData(data);
 	}
 
@@ -136,8 +175,46 @@ public class ParallelCoordinatesPlot extends AbstractInteractiveObject{
 	 */
 	public void setData(double[][] data)
 	{
-		lines.clear();
+		if(!withHeaders)
+		{
+			minMax = new double[data[0].length][2];
+			for(int i = 0; i < data[0].length; i++)
+			{
+				minMax[i][0] = Double.MAX_VALUE;
+				minMax[i][1] = Double.MIN_VALUE;
+			}
+			for(int i = 0; i < data[0].length; i++)
+			{
+				for(int j = 0; j < data.length; j++)
+				{
+					if(minMax[i][0] > data[j][i])
+					{
+						minMax[i][0] = data[j][i];
+					}
+					if(minMax[i][1] < data[j][i])
+					{
+						minMax[i][1] = data[j][i];
+					}
+				}
+			}
+		}
+		this.axisXPositions = new int[data[0].length];
+		lineLength = height - (2*verticalGap);
+		axisYUpperPosition = posY + verticalGap;
+		axisYLowerPosition = posY + height - verticalGap;
 
+		axisXPositions[0] = posX + horizontalGap;
+
+		int axisGap = (int)((double)(width - (2 * horizontalGap)) / (double)(data[0].length - 1));
+		
+		for(int i = 2; i < data[0].length; i++)
+		{
+			axisXPositions[i - 1] = posX + horizontalGap + ((i-1)*axisGap);
+		}
+		axisXPositions[data[0].length - 1] = posX + (width - horizontalGap);
+		
+
+		lines.clear();
 		for(int i = 0; i < data.length; i++)
 		{
 			double[] lineData = data[i];
@@ -244,7 +321,7 @@ public class ParallelCoordinatesPlot extends AbstractInteractiveObject{
 		for(int i : lineNumbers)
 		{
 			lines.get(i).setSelected();
-//			lines.get(i).setChanged();
+			//			lines.get(i).setChanged();
 		}
 		drawAxis();
 		drawLines();
@@ -279,10 +356,13 @@ public class ParallelCoordinatesPlot extends AbstractInteractiveObject{
 			mainApplet.strokeWeight(1);
 			mainApplet.line(axisXPositions[i], axisYUpperPosition, axisXPositions[i], axisYLowerPosition);
 
-			String header = headers[i] + "\n" + minMax[i][0] + " to " + minMax[i][1];
-			float textWidth = mainApplet.textWidth(header);
-			mainApplet.fill(colorText);
-			mainApplet.text(header, axisXPositions[i] - (int)(textWidth/2),  axisYLowerPosition + 15, axisTextSize);
+			if(withHeaders)
+			{
+				String header = headers[i] + "\n" + minMax[i][0] + " to " + minMax[i][1];
+				float textWidth = mainApplet.textWidth(header);
+				mainApplet.fill(colorText);
+				mainApplet.text(header, axisXPositions[i] - (int)(textWidth/2),  axisYLowerPosition + 15, axisTextSize);
+			}
 		}
 	}
 
@@ -308,11 +388,168 @@ public class ParallelCoordinatesPlot extends AbstractInteractiveObject{
 	{
 		renderNodesInfo = b;
 	}	
-	
+
 	public boolean mouseIsOverFeedback()
 	{
-		
+
 		return super.mouseIsOverFeedback();
 	}
-	
+
+	/**
+	 * @return the headers
+	 */
+	public String[] getHeaders() {
+		return headers;
+	}
+
+	/**
+	 * @param headers the headers to set
+	 */
+	public void setHeaders(String[] headers) {
+		this.headers = headers;
+		withHeaders = true;
+	}
+
+	/**
+	 * @return the minMax
+	 */
+	public double[][] getMinMax() {
+		return minMax;
+	}
+
+	/**
+	 * @param minMax the minMax to set
+	 */
+	public void setMinMax(double[][] minMax) {
+		this.minMax = minMax;
+	}
+
+	/**
+	 * @return the width
+	 */
+	public int getWidth() {
+		return width;
+	}
+
+	/**
+	 * @param width the width to set
+	 */
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	/**
+	 * @return the horizontalGap
+	 */
+	public int getHorizontalGap() {
+		return horizontalGap;
+	}
+
+	/**
+	 * @param horizontalGap the horizontalGap to set
+	 */
+	public void setHorizontalGap(int horizontalGap) {
+		this.horizontalGap = horizontalGap;
+	}
+
+	/**
+	 * @return the verticalGap
+	 */
+	public int getVerticalGap() {
+		return verticalGap;
+	}
+
+	/**
+	 * @param verticalGap the verticalGap to set
+	 */
+	public void setVerticalGap(int verticalGap) {
+		this.verticalGap = verticalGap;
+	}
+
+	/**
+	 * @return the axisColor
+	 */
+	public int getAxisColor() {
+		return axisColor;
+	}
+
+	/**
+	 * @param axisColor the axisColor to set
+	 */
+	public void setAxisColor(int axisColor) {
+		this.axisColor = axisColor;
+	}
+
+	/**
+	 * @return the colorLine
+	 */
+	public int getColorLine() {
+		return colorLine;
+	}
+
+	/**
+	 * @param colorLine the colorLine to set
+	 */
+	public void setColorLine(int colorLine) {
+		this.colorLine = colorLine;
+	}
+
+	/**
+	 * @return the colorSelected
+	 */
+	public int getColorSelected() {
+		return colorSelected;
+	}
+
+	/**
+	 * @param colorSelected the colorSelected to set
+	 */
+	public void setColorSelected(int colorSelected) {
+		this.colorSelected = colorSelected;
+	}
+
+	/**
+	 * @return the colorText
+	 */
+	public int getColorText() {
+		return colorText;
+	}
+
+	/**
+	 * @param colorText the colorText to set
+	 */
+	public void setColorText(int colorText) {
+		this.colorText = colorText;
+	}
+
+	/**
+	 * @return the colorBackground
+	 */
+	public int getColorBackground() {
+		return colorBackground;
+	}
+
+	/**
+	 * @param colorBackground the colorBackground to set
+	 */
+	public void setColorBackground(int colorBackground) {
+		this.colorBackground = colorBackground;
+	}
+
+	/**
+	 * @return the axisTextSize
+	 */
+	public int getAxisTextSize() {
+		return axisTextSize;
+	}
+
+	/**
+	 * @param axisTextSize the axisTextSize to set
+	 */
+	public void setAxisTextSize(int axisTextSize) {
+		this.axisTextSize = axisTextSize;
+	}
+
+
+
 }

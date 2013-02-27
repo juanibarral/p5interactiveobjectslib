@@ -15,7 +15,7 @@ public class ParallelCoordinatesPlotExample extends PApplet implements Interacti
 	public void setup() 
 	{	
 		size(700,500);
-		int coordinatesSize = 9;
+		int coordinatesSize = 3;
 		int dataSize = 9;
 		
 		double[][] minMax = new double[coordinatesSize][2];
@@ -39,7 +39,9 @@ public class ParallelCoordinatesPlotExample extends PApplet implements Interacti
 			}
 		}
 		
-		parallelCoordinatesPlot = new ParallelCoordinatesPlot(this, headers, minMax, 50, 50,  600, 400, 50, 50);
+//		parallelCoordinatesPlot = new ParallelCoordinatesPlot(this, headers, minMax, 50, 50,  600, 400, 50, 50);
+		parallelCoordinatesPlot = new ParallelCoordinatesPlot(this, 50, 50, 600, 400);
+		
 		parallelCoordinatesPlot.renderNodesInfo(true);
 		parallelCoordinatesPlot.addListener(this);
 		parallelCoordinatesPlot.setData(data);
