@@ -20,6 +20,7 @@ public class ParallelCoordinatesPlotExample extends PApplet implements Interacti
 		
 		double[][] minMax = new double[coordinatesSize][2];
 		double[][] data = new double[dataSize][coordinatesSize];
+		int[] colorLines = new int[dataSize];
 		
 		String[] headers = new String[coordinatesSize];
 		for(int i = 0; i < headers.length; i++)
@@ -37,6 +38,8 @@ public class ParallelCoordinatesPlotExample extends PApplet implements Interacti
 			{
 				data[i][j] = r.nextDouble();
 			}
+			Color c = new Color(r.nextFloat(), r.nextFloat(), r.nextFloat());
+			colorLines[i] = c.getRGB();
 		}
 		
 //		parallelCoordinatesPlot = new ParallelCoordinatesPlot(this, headers, minMax, 50, 50,  600, 400, 50, 50);
@@ -45,6 +48,7 @@ public class ParallelCoordinatesPlotExample extends PApplet implements Interacti
 		parallelCoordinatesPlot.renderNodesInfo(true);
 		parallelCoordinatesPlot.addListener(this);
 		parallelCoordinatesPlot.setData(data);
+		parallelCoordinatesPlot.setColorLines(colorLines);
 		parallelCoordinatesPlot.setId(20);
 	}
 

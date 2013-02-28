@@ -446,6 +446,14 @@ public class ParallelCoordinatesPlot extends AbstractInteractiveObject{
 	public int getHorizontalGap() {
 		return horizontalGap;
 	}
+	
+	public void setColorLines(int[] colorLines)
+	{
+		for(int i = 0; i < lines.size(); i++)
+		{
+			lines.get(i).setUnselectedColor(colorLines[i]);
+		}
+	}
 
 	/**
 	 * @param horizontalGap the horizontalGap to set

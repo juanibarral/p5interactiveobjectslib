@@ -131,6 +131,7 @@ public class DynamicParallelCoordinatesPlotExample extends PApplet implements In
 		parallelCoordinatesPlot.setData(headers, minMax, data);
 	}
 
+
 	@Override
 	public void eventTriggered(InteractiveObjectEvent event) {
 		if(event.getSource() instanceof InteractivePoint)
