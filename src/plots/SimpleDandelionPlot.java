@@ -113,7 +113,9 @@ public class SimpleDandelionPlot extends AbstractPointPlot {
 			lines[i][1] = centerY - posY;
 			InteractivePoint point = new InteractivePoint(centerX + posX, centerY - posY, mainApplet);
 			point.setId(i);
+			point.setParentId(this.id);
 			point.setUserData(data[i]);
+			point.setTextColor(colorText);
 			if(nodesText!= null)
 			{
 				point.setText(nodesText[i], null, InteractivePoint.DEFAULT_TEXT_SIZE);
@@ -137,7 +139,7 @@ public class SimpleDandelionPlot extends AbstractPointPlot {
 			{
 				point.addListener(listener);
 			}
-			point.renderText(renderNodesData);
+			point.renderText(renderNodesText);
 			points.add(point);
 			
 		}
@@ -149,7 +151,7 @@ public class SimpleDandelionPlot extends AbstractPointPlot {
 	 * @param data the data 
 	 * @throws Exception if the data is out of range
 	 */
-	public void setData(double[][] data) throws Exception
+	public void setData(double[][] data, String[][] nodesText, Object[][] userData) throws Exception
 	{
 		lines = new int[data.length][2];
 		points.clear();
@@ -177,14 +179,20 @@ public class SimpleDandelionPlot extends AbstractPointPlot {
 
 				InteractivePoint point = new InteractivePoint(centerX + posX, centerY - posY, mainApplet);
 				point.setId(i);
-				point.setUserData(data[i]);
+				point.setParentId(this.id);
+//				point.setUserData(data[i]);
+				point.setTextColor(colorText);
 				if(nodesText!= null)
 				{
-					point.setText(nodesText[i], null, InteractivePoint.DEFAULT_TEXT_SIZE);
+					point.setText(nodesText[i][j], null, InteractivePoint.DEFAULT_TEXT_SIZE);
 				}
 				else
 				{
 					point.setText(data[i] + "", null, InteractivePoint.DEFAULT_TEXT_SIZE);
+				}
+				if(userData != null)
+				{
+					point.setUserData(userData[i][j]);
 				}
 				if(nodesColor != null)
 				{
@@ -201,7 +209,7 @@ public class SimpleDandelionPlot extends AbstractPointPlot {
 				{
 					point.addListener(listener);
 				}
-				point.renderText(renderNodesData);
+				point.renderText(renderNodesText);
 				points.add(point);
 			}
 			
@@ -278,5 +286,13 @@ public class SimpleDandelionPlot extends AbstractPointPlot {
 			p.drawObject();
 		}
 	}
+
+	/**
+	 * @param gap the gap to set
+	 */
+	public void setGap(int gap) {
+		this.gap = gap;
+	}
+	
 	
 }

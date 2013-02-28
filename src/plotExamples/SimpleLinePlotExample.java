@@ -41,7 +41,7 @@ public class SimpleLinePlotExample extends PApplet implements InteractiveObjectL
 			plot.setNodeColors(colors);
 			plot.setNodesText(text);
 			plot.addListener(this);
-			plot.renderNodesData(true);
+			plot.renderNodesText(true);
 			
 			plot.setData(data);
 			

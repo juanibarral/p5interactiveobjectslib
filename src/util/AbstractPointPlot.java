@@ -17,9 +17,10 @@ public abstract class AbstractPointPlot extends AbstractInteractiveObject{
 	protected int width;
 	protected int height;
 	protected int colorBackground;
+	protected int colorText;
 	protected boolean withBackground;
 	protected ArrayList<InteractivePoint> points;
-	protected boolean renderNodesData;
+	protected boolean renderNodesText;
 	protected boolean listenerAdded;
 	protected InteractiveObjectListener listener;
 	protected String[] nodesText;
@@ -35,9 +36,10 @@ public abstract class AbstractPointPlot extends AbstractInteractiveObject{
 		width = 100;
 		height = 100;
 		colorBackground = Color.DARK_GRAY.getRGB();
+		colorText = Color.WHITE.getRGB();
 		withBackground = true;
 		points = new ArrayList<InteractivePoint>();
-		renderNodesData = false;
+		renderNodesText = false;
 		listenerAdded = false;
 	}
 	
@@ -45,9 +47,9 @@ public abstract class AbstractPointPlot extends AbstractInteractiveObject{
 	 * If render the data of each node
 	 * @param b if the data will be rendered
 	 */
-	public void renderNodesData(boolean b)
+	public void renderNodesText(boolean b)
 	{
-		this.renderNodesData= b;
+		this.renderNodesText= b;
 
 	}
 	
@@ -67,6 +69,14 @@ public abstract class AbstractPointPlot extends AbstractInteractiveObject{
 		}
 		points.clear();
 		points.addAll(clonedPoints);
+	}
+	
+	public void setPointsUserData(Object[] pointsUserData)
+	{
+		for(int i = 0; i < points.size(); i++)
+		{
+			points.get(i).setUserData(pointsUserData[i]);
+		}
 	}
 	
 	public void addListener(InteractiveObjectListener listener)
@@ -96,6 +106,11 @@ public abstract class AbstractPointPlot extends AbstractInteractiveObject{
 	public void withBackground(boolean b)
 	{
 		withBackground = b;
+	}
+	
+	public void setColorTextForPoints(int color)
+	{
+		colorText = color;
 	}
 	
 	public boolean mouseIsOver()

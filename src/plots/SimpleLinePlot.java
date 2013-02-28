@@ -27,7 +27,7 @@ public class SimpleLinePlot extends AbstractPointPlot{
 		colorSelected = Color.YELLOW.getRGB();
 		minValue = 0;
 		maxValue = 1.0;
-		renderNodesData = false;
+		renderNodesText = false;
 		maxLineLength = 80;
 		linePosY = 25;
 	}
@@ -59,6 +59,7 @@ public class SimpleLinePlot extends AbstractPointPlot{
 			float positionInLine = PApplet.map((float)d, (float)minValue, (float)maxValue, 0, (float)maxLineLength);
 			InteractivePoint point = new InteractivePoint((int) (posX + gap + positionInLine), linePosY , mainApplet);
 			point.setId(i);
+			point.setParentId(this.id);
 			point.setUserData(data[i]);
 			if(nodesText!= null)
 			{
@@ -83,7 +84,7 @@ public class SimpleLinePlot extends AbstractPointPlot{
 			{
 				point.addListener(listener);
 			}
-			point.renderText(renderNodesData);
+			point.renderText(renderNodesText);
 			points.add(point);
 		}
 	}

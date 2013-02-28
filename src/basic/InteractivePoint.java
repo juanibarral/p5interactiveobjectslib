@@ -62,6 +62,11 @@ public class InteractivePoint extends AbstractInteractiveObject{
 		this.textSize = size;
 	}
 	
+	public String getText()
+	{
+		return text;
+	}
+	
 	/**
 	 * Sets if the visualization will show the text
 	 * @param b if the text is going to be rendered

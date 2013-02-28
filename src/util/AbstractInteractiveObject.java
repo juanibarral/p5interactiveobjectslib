@@ -17,6 +17,7 @@ public abstract class AbstractInteractiveObject{
 	protected boolean changed;
 	protected PApplet mainApplet;
 	protected int id;
+	protected int parentId;
 	protected ArrayList<InteractiveObjectListener> listeners;
 	protected boolean firstTime = true;
 	protected Object userData;
@@ -73,7 +74,21 @@ public abstract class AbstractInteractiveObject{
 	{
 		return id;
 	}
+	
+	
 
+	/**
+	 * @return the parentId
+	 */
+	public int getParentId() {
+		return parentId;
+	}
+	/**
+	 * @param parentId the parentId to set
+	 */
+	public void setParentId(int parentId) {
+		this.parentId = parentId;
+	}
 	/**
 	 * Sets the applet where the object is going to be
 	 * @param applet the applet

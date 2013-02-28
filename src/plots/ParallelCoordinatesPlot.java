@@ -373,7 +373,6 @@ public class ParallelCoordinatesPlot extends AbstractInteractiveObject{
 	{
 		if(changed)
 		{
-			System.out.println("drawing parallel plot");
 			drawAxis();
 			if(!lines.isEmpty())
 			{

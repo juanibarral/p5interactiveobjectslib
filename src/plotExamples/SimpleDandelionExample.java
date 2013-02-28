@@ -40,7 +40,7 @@ public class SimpleDandelionExample extends PApplet implements InteractiveObject
 			plot.setNodeColors(colors);
 			plot.setNodesText(text);
 			plot.addListener(this);
-			plot.renderNodesData(true);
+			plot.renderNodesText(true);
 			
 			ArrayList<InteractivePoint> newPoints = new ArrayList<InteractivePoint>();
 			for(int i = 0; i < numOfValues; i++)

@@ -42,9 +42,9 @@ public class SimpleDandelionExample2 extends PApplet implements InteractiveObjec
 			plot.setNodeColors(colors);
 			plot.setNodesText(text);
 			plot.addListener(this);
-			plot.renderNodesData(true);
+			plot.renderNodesText(true);
 			
-			plot.setData(data);
+			plot.setData(data, null, null);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
