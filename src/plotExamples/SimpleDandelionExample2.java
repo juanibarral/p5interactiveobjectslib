@@ -22,29 +22,29 @@ public class SimpleDandelionExample2 extends PApplet implements InteractiveObjec
 		int numMaxOfValuesPerCategory = 5;
 		double[][] data = new double[numOfCategories][];
 		int[] colors = new int[numOfCategories];
-		String[] text = new String[numOfCategories];
+		String[][] text = new String[numOfCategories][];
 		Random r = new Random();
 		for(int i = 0; i < numOfCategories; i++)
 		{
 			int values = (int) (r.nextFloat() * numMaxOfValuesPerCategory);
 			data[i] = new double[values];
+			text[i] = new String[values];
 			for(int j = 0; j < values; j++)
 			{
 				data[i][j] = r.nextDouble();
 				Color c = new Color(r.nextFloat(), r.nextFloat(), r.nextFloat());
 				colors[i] = c.getRGB();
-				text[i] = "Text " + data[i];
+				text[i][j] = "Text " + i + " " + j;
 			}
 		}
 		
 		try {
 			
 			plot.setNodeColors(colors);
-			plot.setNodesText(text);
 			plot.addListener(this);
 			plot.renderNodesText(true);
 			
-			plot.setData(data, null, null);
+			plot.setData(data, text, null);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

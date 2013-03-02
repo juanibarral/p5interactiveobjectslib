@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 import processing.core.PApplet;
+import processing.core.PFont;
 import util.AbstractInteractiveObject;
 import util.InteractiveObjectListener;
 
@@ -21,9 +22,6 @@ public class ParallelCoordinatesPlot extends AbstractInteractiveObject{
 	private String[] headers;
 	private double[][] minMax;
 	private ArrayList<ParallelCoordinatesPlotLine> lines;
-	private PApplet mainApplet;
-	private int posY;
-	private int posX;
 	private int width;
 	private int height;
 	private int horizontalGap; 
@@ -44,9 +42,11 @@ public class ParallelCoordinatesPlot extends AbstractInteractiveObject{
 	private boolean renderNodesInfo;
 	private InteractiveObjectListener listener;
 	private boolean withHeaders;
+	private PFont fontHeaders;
 
-	public ParallelCoordinatesPlot()
+	public ParallelCoordinatesPlot(PApplet mainApplet, int posX, int posY)
 	{
+		super(mainApplet, posX, posY);
 		lines = new ArrayList<ParallelCoordinatesPlotLine>();
 		width = 100;
 		height = 100;
@@ -61,63 +61,11 @@ public class ParallelCoordinatesPlot extends AbstractInteractiveObject{
 		axisTextSize = 14;
 	}
 
-	//	/**
-	//	 * Basic constructor
-	//	 * @param mainApplet the applet where its going to be drawn
-	//	 * @param headers titles for each dimension
-	//	 * @param minMax minimum and maximum values for each dimension
-	//	 * @param posX position in X of the left upper corner for the plot in pixels
-	//	 * @param posY position in Y of the left upper corner for the plot in pixels
-	//	 * @param width width of the plot in pixels
-	//	 * @param height height of the plot in pixels
-	//	 * @param horizontalGap horizontal gap in pixels. 
-	//	 * @param verticalGap vertical gap in pixels
-	//	 */
-	//	public ParallelCoordinatesPlot(PApplet mainApplet, String[] headers, double[][] minMax, int posX, int posY, int width, int height, int horizontalGap, int verticalGap)
-	//	{
-	//		this();
-	//		this.mainApplet = mainApplet;
-	//		this.headers = headers;
-	//		this.minMax = minMax;
-	//		this.width = width;
-	//		this.height =height;
-	//		this.horizontalGap = horizontalGap;
-	//		this.verticalGap = verticalGap;
-	//		this.posX = posX;
-	//		this.posY = posY;
-	//		this.axisColor = Color.WHITE.getRGB();
-	//		this.colorLine = Color.WHITE.getRGB();
-	//		this.colorSelected = Color.YELLOW.getRGB();
-	//		this.colorText = Color.WHITE.getRGB();
-	//		this.colorBackground = Color.DARK_GRAY.getRGB();
-	//		this.withBackground = true;
-	//		this.lines = new ArrayList<ParallelCoordinatesPlotLine>();
-	//		this.axisXPositions = new int[headers.length];
-	//		this.autoSelection = false;
-	//
-	//		lineLength = this.height - (2*verticalGap);
-	//
-	//		axisYUpperPosition = posY + verticalGap;
-	//		axisYLowerPosition = posY + this.height - verticalGap;
-	//
-	//		axisXPositions[0] = posX + horizontalGap;
-	//
-	//		int axisGap = (int)((double)(width - (2*horizontalGap)) / (double)(headers.length - 1));
-	//		for(int i = 2; i < headers.length; i++)
-	//		{
-	//			axisXPositions[i - 1] = posX + horizontalGap + ((i-1)*axisGap);
-	//		}
-	//		axisXPositions[headers.length - 1] = posX + (width - horizontalGap);
-	//	}
-
 	public ParallelCoordinatesPlot(PApplet mainApplet, int posX, int posY, int width, int height)
 	{
-		this();
-		this.mainApplet = mainApplet;
+		this(mainApplet, posX, posY);
 		this.width = width;
 		this.height =height;
-		this.posX = posX;
-		this.posY = posY;
 		this.axisColor = Color.WHITE.getRGB();
 		this.colorLine = Color.WHITE.getRGB();
 		this.colorSelected = Color.YELLOW.getRGB();
@@ -126,6 +74,7 @@ public class ParallelCoordinatesPlot extends AbstractInteractiveObject{
 		this.withBackground = true;
 		this.lines = new ArrayList<ParallelCoordinatesPlotLine>();
 		this.autoSelection = false;
+		this.fontHeaders = AbstractInteractiveObject.basicFont;
 
 	}
 
@@ -175,7 +124,7 @@ public class ParallelCoordinatesPlot extends AbstractInteractiveObject{
 	 */
 	public void setData(double[][] data)
 	{
-		if(!withHeaders)
+		if(minMax == null)
 		{
 			minMax = new double[data[0].length][2];
 			for(int i = 0; i < data[0].length; i++)
@@ -360,9 +309,10 @@ public class ParallelCoordinatesPlot extends AbstractInteractiveObject{
 
 				if(withHeaders)
 				{
-					String header = headers[i] + "\n" + minMax[i][0] + " to " + minMax[i][1];
+					String header = headers[i] + "\n" + decimalFormat.format(minMax[i][0]) + " to " + decimalFormat.format(minMax[i][1]);
 					float textWidth = mainApplet.textWidth(header);
 					mainApplet.fill(colorText);
+					mainApplet.textFont(fontHeaders);
 					mainApplet.text(header, axisXPositions[i] - (int)(textWidth/2),  axisYLowerPosition + 15, axisTextSize);
 				}
 			}
@@ -560,6 +510,10 @@ public class ParallelCoordinatesPlot extends AbstractInteractiveObject{
 		this.axisTextSize = axisTextSize;
 	}
 
-
+	public void setGap(int horizontalGap, int verticalGap)
+	{
+		this.horizontalGap = horizontalGap;
+		this.verticalGap = verticalGap;
+	}
 
 }

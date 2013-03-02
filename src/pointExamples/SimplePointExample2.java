@@ -14,7 +14,7 @@ public class SimplePointExample2 extends PApplet {
 	{
 		point = new InteractivePoint(100,100,this);
 		point.setSize(50);
-		point.setText("This is a point", null, 30);
+		point.setText("This is a point");
 		point.renderText(true);
 		point.setTextColor(Color.RED.getRGB());
 		point.setBackgroundColor(Color.LIGHT_GRAY.getRGB());

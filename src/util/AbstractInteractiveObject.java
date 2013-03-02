@@ -1,8 +1,10 @@
 package util;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import processing.core.PApplet;
+import processing.core.PFont;
 
 /**
  * It is a Class that represents an object that has two states: selected and unselected.
@@ -13,6 +15,8 @@ import processing.core.PApplet;
  *
  */
 public abstract class AbstractInteractiveObject{
+	protected int posX;
+	protected int posY;
 	protected boolean selected;
 	protected boolean changed;
 	protected PApplet mainApplet;
@@ -22,6 +26,8 @@ public abstract class AbstractInteractiveObject{
 	protected boolean firstTime = true;
 	protected Object userData;
 	protected boolean overrideChanged;
+	public static DecimalFormat decimalFormat;
+	public static PFont basicFont;
 	/**
 	 * Basic constructor
 	 */
@@ -31,6 +37,9 @@ public abstract class AbstractInteractiveObject{
 		changed = true;
 		id = 0;
 		listeners = new ArrayList<InteractiveObjectListener>();
+		posX = 0;
+		posY = 0;
+		decimalFormat = new DecimalFormat("#.##");
 	}
 	/**
 	 * Constructor
@@ -40,6 +49,13 @@ public abstract class AbstractInteractiveObject{
 	{
 		this();
 		mainApplet = applet;
+		basicFont = mainApplet.createFont("Arial", 14);
+	}
+	public AbstractInteractiveObject(PApplet applet, int posX, int posY)
+	{
+		this(applet);
+		this.posX = posX;
+		this.posY = posY;
 	}
 	
 	/**
@@ -237,6 +253,5 @@ public abstract class AbstractInteractiveObject{
 	{
 		
 	}
-	
 
 }

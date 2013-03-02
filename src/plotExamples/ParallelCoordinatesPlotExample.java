@@ -44,12 +44,14 @@ public class ParallelCoordinatesPlotExample extends PApplet implements Interacti
 		
 //		parallelCoordinatesPlot = new ParallelCoordinatesPlot(this, headers, minMax, 50, 50,  600, 400, 50, 50);
 		parallelCoordinatesPlot = new ParallelCoordinatesPlot(this, 50, 50, 600, 400);
-		
 		parallelCoordinatesPlot.renderNodesInfo(true);
 		parallelCoordinatesPlot.addListener(this);
+		parallelCoordinatesPlot.setHeaders(headers);
+		parallelCoordinatesPlot.setGap(100, 100);
 		parallelCoordinatesPlot.setData(data);
 		parallelCoordinatesPlot.setColorLines(colorLines);
 		parallelCoordinatesPlot.setId(20);
+		
 	}
 
 	public void draw() 

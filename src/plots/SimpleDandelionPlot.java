@@ -1,13 +1,9 @@
 package plots;
 
 import java.awt.Color;
-
-import javax.sound.sampled.DataLine;
-
-import basic.InteractivePoint;
-
 import processing.core.PApplet;
 import util.AbstractPointPlot;
+import basic.InteractivePoint;
 
 /**
  * It is a Class that represents a radial plot that looks like a dandelion
@@ -27,6 +23,7 @@ public class SimpleDandelionPlot extends AbstractPointPlot {
 	protected int centerY;
 	protected int centerOffset;
 	protected int[][] lines;
+	protected String[] titles;
 
 	/**
 	 * Simple Constructor
@@ -115,7 +112,7 @@ public class SimpleDandelionPlot extends AbstractPointPlot {
 			point.setId(i);
 			point.setParentId(this.id);
 			point.setUserData(data[i]);
-			point.setTextColor(colorText);
+			point.setTextColor(pointsColorText);
 			if(nodesText!= null)
 			{
 				point.setText(nodesText[i], null, InteractivePoint.DEFAULT_TEXT_SIZE);
@@ -155,7 +152,7 @@ public class SimpleDandelionPlot extends AbstractPointPlot {
 	{
 		lines = new int[data.length][2];
 		points.clear();
-		float radiusGap = 360.0f / (float)(data.length);
+		float radiusStep = 360.0f / (float)(data.length);
 		for(int i = 0; i < data.length; i++)
 		{
 			double maxData = 0;
@@ -174,21 +171,21 @@ public class SimpleDandelionPlot extends AbstractPointPlot {
 				
 				float radius = PApplet.map((float)d, (float)minValue, (float)maxValue, centerOffset, (float)maxLineLength);
 
-				int posX = (int) (radius * Math.cos(Math.toRadians(radiusGap  * i)));
-				int posY = (int) (radius * Math.sin(Math.toRadians(radiusGap  * i)));
+				int posX = (int) (radius * Math.cos(Math.toRadians(radiusStep  * i)));
+				int posY = (int) (radius * Math.sin(Math.toRadians(radiusStep  * i)));
 
 				InteractivePoint point = new InteractivePoint(centerX + posX, centerY - posY, mainApplet);
 				point.setId(i);
 				point.setParentId(this.id);
 //				point.setUserData(data[i]);
-				point.setTextColor(colorText);
+				point.setTextColor(pointsColorText);
 				if(nodesText!= null)
 				{
 					point.setText(nodesText[i][j], null, InteractivePoint.DEFAULT_TEXT_SIZE);
 				}
 				else
 				{
-					point.setText(data[i] + "", null, InteractivePoint.DEFAULT_TEXT_SIZE);
+					point.setText("Data: " + data[i] + "", null, InteractivePoint.DEFAULT_TEXT_SIZE);
 				}
 				if(userData != null)
 				{
@@ -215,8 +212,8 @@ public class SimpleDandelionPlot extends AbstractPointPlot {
 			
 			float radius = PApplet.map((float)maxData, (float)minValue, (float)maxValue, centerOffset, (float)maxLineLength);
 
-			lines[i][0] = centerX + (int) (radius * Math.cos(Math.toRadians(radiusGap  * i)));
-			lines[i][1] = centerY - (int) (radius * Math.sin(Math.toRadians(radiusGap  * i)));
+			lines[i][0] = centerX + (int) (radius * Math.cos(Math.toRadians(radiusStep  * i)));
+			lines[i][1] = centerY - (int) (radius * Math.sin(Math.toRadians(radiusStep  * i)));
 		}
 		setChanged();
 	}
@@ -276,6 +273,26 @@ public class SimpleDandelionPlot extends AbstractPointPlot {
 
 			}
 		}
+		if(titles != null)
+		{
+			for(int i = 0; i < lines.length; i++)
+			{
+				mainApplet.fill(colorLine);
+				int endX = lines[i][0] - centerX;
+				int endY = lines[i][1] - centerY;
+				int distance = (int) Math.sqrt(( endX * endX) + (endY * endY));
+				int textX = (int)((float)endX / (float)distance * (maxLineLength+5));
+				int textY = (int)((float)endY / (float)distance * (maxLineLength+5));
+
+				float textWidth = mainApplet.textWidth(titles[i]);
+				mainApplet.text(titles[i], textX + centerX, textY + centerY);
+
+			}
+		}
+		mainApplet.strokeWeight(1);
+		mainApplet.stroke(colorLine);
+		mainApplet.noFill();
+		mainApplet.ellipse(centerX, centerY, maxLineLength * 2, maxLineLength * 2);
 	}
 	protected void drawPoints()
 	{
@@ -292,7 +309,12 @@ public class SimpleDandelionPlot extends AbstractPointPlot {
 	 */
 	public void setGap(int gap) {
 		this.gap = gap;
+		this.maxLineLength = (int)((float)(width - gap) / 2.0f);
 	}
 	
+	public void setTitles(String[] titles)
+	{
+		this.titles = titles;
+	}
 	
 }

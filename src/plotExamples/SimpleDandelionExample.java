@@ -20,12 +20,14 @@ public class SimpleDandelionExample extends PApplet implements InteractiveObject
 	{
 		plot = new SimpleDandelionPlot(this, 50, 50, 400);
 		plot.setRange(0, 1);
-//		plot.setCenterOffset(150);
+		plot.setGap(100);
+		plot.setCenterOffset(50);
 		
 		int numOfValues = 10;
 		double[] data = new double[numOfValues];
 		int[] colors = new int[numOfValues];
 		String[] text = new String[numOfValues];
+		String[] titles = new String[numOfValues];
 		Random r = new Random();
 		for(int i = 0; i < numOfValues; i++)
 		{
@@ -33,14 +35,17 @@ public class SimpleDandelionExample extends PApplet implements InteractiveObject
 			Color c = new Color(r.nextFloat(), r.nextFloat(), r.nextFloat());
 			colors[i] = c.getRGB();
 			text[i] = "Text " + data[i];
+			titles[i] = "Title " + i;
 		}
 		
 		try {
 			
 			plot.setNodeColors(colors);
 			plot.setNodesText(text);
+			plot.setColorTextForPoints(Color.WHITE.getRGB());
 			plot.addListener(this);
 			plot.renderNodesText(true);
+			plot.setTitles(titles);
 			
 			ArrayList<InteractivePoint> newPoints = new ArrayList<InteractivePoint>();
 			for(int i = 0; i < numOfValues; i++)

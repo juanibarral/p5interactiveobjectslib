@@ -17,7 +17,7 @@ public abstract class AbstractPointPlot extends AbstractInteractiveObject{
 	protected int width;
 	protected int height;
 	protected int colorBackground;
-	protected int colorText;
+	protected int pointsColorText;
 	protected boolean withBackground;
 	protected ArrayList<InteractivePoint> points;
 	protected boolean renderNodesText;
@@ -36,7 +36,7 @@ public abstract class AbstractPointPlot extends AbstractInteractiveObject{
 		width = 100;
 		height = 100;
 		colorBackground = Color.DARK_GRAY.getRGB();
-		colorText = Color.WHITE.getRGB();
+		pointsColorText = Color.WHITE.getRGB();
 		withBackground = true;
 		points = new ArrayList<InteractivePoint>();
 		renderNodesText = false;
@@ -110,7 +110,7 @@ public abstract class AbstractPointPlot extends AbstractInteractiveObject{
 	
 	public void setColorTextForPoints(int color)
 	{
-		colorText = color;
+		pointsColorText = color;
 	}
 	
 	public boolean mouseIsOver()

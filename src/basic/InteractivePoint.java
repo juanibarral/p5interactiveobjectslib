@@ -15,8 +15,6 @@ import util.AbstractInteractiveObject;
 public class InteractivePoint extends AbstractInteractiveObject{
 
 	public static final int DEFAULT_TEXT_SIZE = 14;
-	protected int posX;
-	protected int posY;
 	protected int color;
 	protected int colorSelected;
 	protected int size = 5;
@@ -36,9 +34,7 @@ public class InteractivePoint extends AbstractInteractiveObject{
 	 */
 	public InteractivePoint(int posX, int posY,PApplet mainApplet)
 	{
-		super(mainApplet);
-		this.posX = posX;
-		this.posY = posY;
+		super(mainApplet, posX, posY);
 		this.color = Color.BLACK.getRGB();
 		this.colorSelected = Color.BLACK.getRGB();
 		this.text = "";
@@ -47,6 +43,7 @@ public class InteractivePoint extends AbstractInteractiveObject{
 		this.withBackground = false;
 		this.colorBackground = Color.WHITE.getRGB();
 		this.colorText = Color.BLACK.getRGB();
+		this.font = basicFont;
 	}
 	
 	/**
@@ -58,8 +55,19 @@ public class InteractivePoint extends AbstractInteractiveObject{
 	public void setText(String text, PFont font, int size)
 	{
 		this.text = text;
-		this.font = font;
-		this.textSize = size;
+		if(font != null)
+		{
+			this.font = font;
+		}
+		if(size >0)
+		{
+			this.textSize = size;
+		}
+	}
+	
+	public void setText(String text)
+	{
+		this.text = text;
 	}
 	
 	public String getText()
@@ -217,16 +225,16 @@ public class InteractivePoint extends AbstractInteractiveObject{
 		}
 		
 		mainApplet.fill(colorText);
-		if(font != null)
-		{
+//		if(font != null)
+//		{
 			mainApplet.textFont(font, textSize);
 			mainApplet.text(text, posX, posY);
-		}
-		else
-		{
-			mainApplet.textSize(textSize);
-			mainApplet.text(text, posX, posY);
-		}
+//		}
+//		else
+//		{
+//			mainApplet.textSize(textSize);
+//			mainApplet.text(text, posX, posY);
+//		}
 		mainApplet.fill(color);
 	}
 	
