@@ -309,11 +309,17 @@ public class ParallelCoordinatesPlot extends AbstractInteractiveObject{
 
 				if(withHeaders)
 				{
-					String header = headers[i] + "\n" + decimalFormat.format(minMax[i][0]) + " to " + decimalFormat.format(minMax[i][1]);
-					float textWidth = mainApplet.textWidth(header);
+//					String header = headers[i] + "\n" + decimalFormat.format(minMax[i][0]) + " to " + decimalFormat.format(minMax[i][1]);
+					String header = headers[i];
+					String min = decimalFormat.format(minMax[i][0]);
+					String max = decimalFormat.format(minMax[i][1]);
+					float headerTextWidth = mainApplet.textWidth(header);
+					float minTextWidth = mainApplet.textWidth(min);
 					mainApplet.fill(colorText);
 					mainApplet.textFont(fontHeaders);
-					mainApplet.text(header, axisXPositions[i] - (int)(textWidth/2),  axisYLowerPosition + 15, axisTextSize);
+					mainApplet.text(min, axisXPositions[i] - (int)(minTextWidth/2),  axisYLowerPosition + fontHeaders.getSize() + 5, axisTextSize);
+					mainApplet.text(max, axisXPositions[i] - (int)(minTextWidth/2),  axisYUpperPosition - fontHeaders.getSize() - 5, axisTextSize);
+					mainApplet.text(header, axisXPositions[i] - (int)(headerTextWidth/2),  axisYLowerPosition + (fontHeaders.getSize()*2) + 10, axisTextSize);
 				}
 			}
 		}
