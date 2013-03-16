@@ -327,6 +327,7 @@ public class ParallelCoordinatesPlot extends AbstractInteractiveObject{
 
 	public void drawObject()
 	{
+		super.drawObject();
 		if(changed)
 		{
 			drawAxis();

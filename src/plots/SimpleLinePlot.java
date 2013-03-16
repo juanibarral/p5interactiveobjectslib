@@ -103,6 +103,7 @@ public class SimpleLinePlot extends AbstractPointPlot{
 
 	public void drawObject()
 	{
+		super.drawObject();
 		if(changed)
 		{
 			drawBackground();

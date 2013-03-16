@@ -118,6 +118,7 @@ public class ParallelCoordinatesPlotLine extends AbstractInteractiveObject{
 
 	public void drawObject()
 	{
+		super.drawObject();
 		if(changed)
 		{
 			int startX = controlPoints[0][0];

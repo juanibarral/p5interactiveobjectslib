@@ -251,7 +251,10 @@ public abstract class AbstractInteractiveObject{
 	 */
 	public void drawObject()
 	{
-		
+		if(changed)
+		{
+			overrideChanged = false;
+		}
 	}
 
 }

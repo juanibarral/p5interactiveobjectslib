@@ -162,6 +162,7 @@ public class InteractivePoint extends AbstractInteractiveObject{
 	
 	public void drawObject()
 	{
+		super.drawObject();
 		if(changed)
 		{			
 			if(isSelected())

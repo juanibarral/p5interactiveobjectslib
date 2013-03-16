@@ -221,6 +221,7 @@ public class SimpleDandelionPlot extends AbstractPointPlot {
 
 	public void drawObject()
 	{
+		super.drawObject();
 		if(changed)
 		{
 			drawBackground();
