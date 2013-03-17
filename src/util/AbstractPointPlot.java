@@ -3,6 +3,9 @@ package util;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import processing.core.PApplet;
+import processing.core.PFont;
+
 import basic.InteractivePoint;
 
 /**
@@ -17,6 +20,7 @@ public abstract class AbstractPointPlot extends AbstractInteractiveObject{
 	protected int width;
 	protected int height;
 	protected int colorBackground;
+	protected int colorTitle;
 	protected int pointsColorText;
 	protected boolean withBackground;
 	protected ArrayList<InteractivePoint> points;
@@ -24,23 +28,76 @@ public abstract class AbstractPointPlot extends AbstractInteractiveObject{
 	protected boolean listenerAdded;
 	protected InteractiveObjectListener listener;
 	protected String[] nodesText;
+	protected String[][] nodesText2;
 	protected int[] nodesColor;
+	
+	protected int hGap;
+	protected int vGap;
+	
+	//FOR TITLE
+	protected boolean withTitle;
+	protected String title;
+	protected PFont titleFont;
+	protected int titlePosX;
+	protected int titlePosY;
 	
 	/**
 	 * Basic Constructor
 	 */
-	public AbstractPointPlot()
+	public AbstractPointPlot(PApplet mainApplet)
 	{
+		super(mainApplet);
 		posX = 0;
 		posY = 0;
 		width = 100;
 		height = 100;
 		colorBackground = Color.DARK_GRAY.getRGB();
 		pointsColorText = Color.WHITE.getRGB();
+		colorTitle = Color.WHITE.getRGB();
 		withBackground = true;
 		points = new ArrayList<InteractivePoint>();
 		renderNodesText = false;
 		listenerAdded = false;
+		withTitle = false;
+		titleFont = basicFont;
+		hGap = 5;
+		vGap = 5;
+		title = "Title";
+	}
+	
+
+	
+	public void setTitleFont(PFont font)
+	{
+		titleFont = font;
+		calculateTitlePos();
+	}
+	
+	protected void calculateTitlePos()
+	{
+		titlePosX = posX + hGap;
+		titlePosY = posY + vGap + titleFont.getSize();
+	}
+	
+	protected void drawTitle()
+	{
+		if(withTitle)
+		{
+			mainApplet.textFont(titleFont);
+			mainApplet.fill(colorTitle);
+			mainApplet.text(title, titlePosX, titlePosY);
+		}
+	}
+	
+	protected void drawBackground()
+	{
+		if(withBackground)
+		{
+			mainApplet.fill(colorBackground);
+			mainApplet.stroke(colorBackground);
+			mainApplet.strokeWeight(1);
+			mainApplet.rect((float)posX, (float)posY, (float)width, (float)height);
+		}
 	}
 	
 	/**
@@ -161,5 +218,96 @@ public abstract class AbstractPointPlot extends AbstractInteractiveObject{
 		return height;
 	}
 	
+	public void drawObject()
+	{
+		super.drawObject();
+		if(changed)
+		{
+			drawBackground();
+			drawTitle();
+		}
+	}
+	
+	protected void drawPoints()
+	{
+		for(InteractivePoint p : points)
+		{
+			p.mouseIsOverFeedback();
+			p.setChanged();
+			p.drawObject();
+		}
+	}
+
+	public void setPosY(int posY) {
+		this.posY = posY;
+	}
+
+	public void setPosX(int posX) {
+		this.posX = posX;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
+	public void setColorBackground(int colorBackground) {
+		this.colorBackground = colorBackground;
+	}
+
+	public void setPointsColorText(int pointsColorText) {
+		this.pointsColorText = pointsColorText;
+	}
+
+	public void setWithBackground(boolean withBackground) {
+		this.withBackground = withBackground;
+	}
+
+	public void setPoints(ArrayList<InteractivePoint> points) {
+		this.points = points;
+	}
+
+	public void setRenderNodesText(boolean renderNodesText) {
+		this.renderNodesText = renderNodesText;
+	}
+
+	public void setListenerAdded(boolean listenerAdded) {
+		this.listenerAdded = listenerAdded;
+	}
+
+	public void setListener(InteractiveObjectListener listener) {
+		this.listener = listener;
+	}
+
+	public void setNodesColor(int[] nodesColor) {
+		this.nodesColor = nodesColor;
+	}
+
+	public void sethGap(int hGap) {
+		this.hGap = hGap;
+	}
+
+	public void setvGap(int vGap) {
+		this.vGap = vGap;
+	}
+
+	public void setWithTitle(boolean withTitle) {
+		this.withTitle = withTitle;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public void setTitlePosX(int titlePosX) {
+		this.titlePosX = titlePosX;
+	}
+
+	public void setTitlePosY(int titlePosY) {
+		this.titlePosY = titlePosY;
+	}
 	
 }

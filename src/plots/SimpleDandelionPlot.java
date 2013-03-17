@@ -28,9 +28,9 @@ public class SimpleDandelionPlot extends AbstractPointPlot {
 	/**
 	 * Simple Constructor
 	 */
-	public SimpleDandelionPlot()
+	public SimpleDandelionPlot(PApplet applet)
 	{
-		super();
+		super(applet);
 		width = 100;
 		gap = 10; 
 		colorLine = Color.WHITE.getRGB();
@@ -53,7 +53,7 @@ public class SimpleDandelionPlot extends AbstractPointPlot {
 	 */
 	public SimpleDandelionPlot(PApplet mainApplet, int posX, int posY, int width)
 	{
-		this();
+		this(mainApplet);
 		this.mainApplet = mainApplet;
 		this.posX = posX;
 		this.posY = posY;
@@ -185,7 +185,7 @@ public class SimpleDandelionPlot extends AbstractPointPlot {
 				}
 				else
 				{
-					point.setText("Data: " + data[i] + "", null, InteractivePoint.DEFAULT_TEXT_SIZE);
+					point.setText("Data: " + decimalFormat.format(data[i]) + "", null, InteractivePoint.DEFAULT_TEXT_SIZE);
 				}
 				if(userData != null)
 				{

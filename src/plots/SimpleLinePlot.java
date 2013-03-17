@@ -17,9 +17,9 @@ public class SimpleLinePlot extends AbstractPointPlot{
 	protected int maxLineLength;
 	protected int linePosY;
 
-	public SimpleLinePlot()
+	public SimpleLinePlot(PApplet applet)
 	{
-		super();
+		super(applet);
 		width = 100;
 		height = 50;
 		gap = 10; 
@@ -34,7 +34,7 @@ public class SimpleLinePlot extends AbstractPointPlot{
 	
 	public SimpleLinePlot(PApplet applet, int posX, int posY, int width, int height)
 	{
-		this();
+		this(applet);
 		mainApplet = applet;
 		this.posX = posX;
 		this.posY = posY;
@@ -110,17 +110,6 @@ public class SimpleLinePlot extends AbstractPointPlot{
 			drawLine();
 			drawPoints();
 			changed = false;
-		}
-	}
-	
-	protected void drawBackground()
-	{
-		if(withBackground)
-		{
-			mainApplet.fill(colorBackground);
-			mainApplet.stroke(colorBackground);
-			mainApplet.strokeWeight(1);
-			mainApplet.rect((float)posX, (float)posY, (float)width, (float)height);
 		}
 	}
 	
